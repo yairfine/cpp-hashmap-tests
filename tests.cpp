@@ -304,6 +304,63 @@ void testOperatorSubscript()
     std::cout << "PASS - testOperatorSubscript" << std::endl;
 }
 
+void testOperatorEqualsAndNotEquals()
+{
+    HashMap<KeyInt, ValueInt> mapEmpty1;
+    HashMap<KeyInt, ValueInt> mapEmpty2;
+
+    std::vector<KeyString> keysString = {"1", "2", "3"};
+    std::vector<ValueInt> values = {1, 2, 3};
+
+    HashMap<KeyString, ValueInt> mapString1(keysString.cbegin(), keysString.cend(),
+                                      values.cbegin(), values.cend());
+    HashMap<KeyString, ValueInt> mapString2(keysString.cbegin(), keysString.cend(),
+                                      values.cbegin(), values.cend());
+
+    assert(mapEmpty1 == mapEmpty2);
+    assert(!(mapEmpty1 != mapEmpty2));
+
+    assert(mapString1 == mapString2);
+    assert(!(mapString1 != mapString2));
+
+    mapString1["4"];
+
+    assert(mapString1 != mapString2);
+    assert(!(mapString1 == mapString2));
+
+    mapString1["4"] = 4;
+    mapString2.insert("4", 4);
+
+    assert(mapString1 == mapString2);
+    assert(!(mapString1 != mapString2));
+
+    mapString1.clear();
+    mapString2.clear();
+
+    assert(mapString1 == mapString2);
+    assert(!(mapString1 != mapString2));
+
+    HashMap<KeyInt, ValueInt> map;
+
+    int i = 1;
+    for (int n = 0; n <= ITERATIONS; n++)
+    {
+        while (i <= INITIAL_CAPACITY * pow(2, n) * 0.75)
+        {
+            map.insert(i, i);
+            i++;
+        }
+    }
+
+    map.clear();
+
+    assert(map != mapEmpty1);
+    assert(!(map == mapEmpty1));
+
+
+    std::cout << "PASS - testOperatorEqualsAndNotEquals" << std::endl;
+}
+
 int main()
 {
     std::cout << "~~~~~ Starting tests ~~~~~" << std::endl;
@@ -313,6 +370,7 @@ int main()
     testCapacityAndSizeResizeMap();
     testClear();
     testOperatorSubscript();
+    testOperatorEqualsAndNotEquals();
 
     std::cout << "~~~~~ All tests are PASSED ~~~~~" << std::endl;
 
