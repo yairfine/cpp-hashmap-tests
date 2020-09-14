@@ -226,38 +226,45 @@ void testOperatorSubscript()
 
     assert(map.getSize() == 3);
 
-    int a = map["a"];
-    assert(a == 1);
-    a = 10;
-    assert(map["a"] == 1);
-
-    int b = map["b"];
-    assert(b == 2);
-    b = 20;
-    assert(map["b"] == 2);
-
-    int c = map["c"];
-    assert(c == 3);
-    c = 30;
-    assert(map["c"] == 3);
-
-    assert(map.getSize() == 3);
-
-    map["a"] = 111;
-    assert(map["a"] == 111);
-
-    map["b"] = 222;
-    assert(map["b"] == 222);
-
-    map["c"] = 333;
-    assert(map["c"] == 333);
-
-    assert(map.getSize() == 3);
-
     try
     {
-        map["d"];
+
+        int a = map["a"];
+        assert(a == 1);
+        a = 10;
+        assert(map["a"] == 1);
+
+        int b = map["b"];
+        assert(b == 2);
+        b = 20;
+        assert(map["b"] == 2);
+
+        int c = map["c"];
+        assert(c == 3);
+        c = 30;
+        assert(map["c"] == 3);
+
+        assert(map.getSize() == 3);
+
+        map["a"] = 111;
+        assert(map["a"] == 111);
+
+        map["b"] = 222;
+        assert(map["b"] == 222);
+
+        map["c"] = 333;
+        assert(map["c"] == 333);
+
+        assert(map.getSize() == 3);
+
+        map["d"] = 444;
+        assert(map["d"] == 444);
+
         assert(map.getSize() == 4);
+
+        map["e"];
+
+        assert(map.getSize() == 5);
     }
     catch (std::exception &e)
     {
@@ -271,29 +278,27 @@ void testOperatorSubscript()
 
     assert(constMap.getSize() == 3);
 
-    int aa = constMap["a"];
-    assert(aa == 1);
-    aa = 10;
-    assert(constMap["a"] == 1);
-
-    int bb = constMap["b"];
-    assert(bb == 2);
-
-    int cc = constMap["c"];
-    assert(cc == 3);
-
-    assert(constMap.getSize() == 3);
-
     try
     {
-        int dd = constMap["d"];
+        int aa = constMap["a"];
+        assert(aa == 1);
+        aa = 10;
+        assert(constMap["a"] == 1);
+
+        int bb = constMap["b"];
+        assert(bb == 2);
+
+        int cc = constMap["c"];
+        assert(cc == 3);
+
+        assert(constMap.getSize() == 3);
+
+        int dd = constMap["d"]; // should be an undefined behavior
     }
     catch (std::exception &e)
     {
         assert(!" ~~~ Operator [] should NOT throw any exception ~~~ ");
     }
-
-    assert(constMap.getSize() == 3);
 
 
     std::cout << "PASS - testOperatorSubscript" << std::endl;
