@@ -6,6 +6,7 @@
 #include <cassert>
 #include <vector>
 #include <cmath>
+#include <unordered_map>
 
 #define KeyString std::string
 #define KeyInt int
@@ -15,7 +16,7 @@
 #define INITIAL_CAPACITY 16
 #define INITIAL_SIZE 0
 
-#define ITERATIONS 10
+#define ITERATIONS 12
 
 void testDefaultConstruct()
 {
@@ -82,7 +83,9 @@ void testConstruct1()
         HashMap<KeyString, ValueInt> map(it, keys.end(), values.begin(), values.end());
         assert(!"Constructor1 should throw an exception if iterators are not at the same length");
     }
-    catch (std::exception &e) {}
+    catch (std::exception &e)
+    {
+    }
 
     try
     {
@@ -91,7 +94,9 @@ void testConstruct1()
         HashMap<KeyString, ValueInt> map(keys.begin(), it, values.begin(), values.end());
         assert(!"Constructor1 should throw an exception if iterators are not at the same length");
     }
-    catch (std::exception &e) {}
+    catch (std::exception &e)
+    {
+    }
 
     try
     {
@@ -100,7 +105,9 @@ void testConstruct1()
         HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), it, values.end());
         assert(!"Constructor1 should throw an exception if iterators are not at the same length");
     }
-    catch (std::exception &e) {}
+    catch (std::exception &e)
+    {
+    }
 
     try
     {
@@ -109,7 +116,9 @@ void testConstruct1()
         HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), it);
         assert(!"Constructor1 should throw an exception if iterators are not at the same length");
     }
-    catch (std::exception &e) {}
+    catch (std::exception &e)
+    {
+    }
 
     std::cout << "PASS - testConstruct1" << std::endl;
 }
@@ -188,7 +197,7 @@ void testClear()
     assert(map.getSize() == INITIAL_SIZE);
     assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
 
-    map.insert(1,1);
+    map.insert(1, 1);
 
     // todo make sure this is the appropriate behavior:
 
@@ -204,6 +213,69 @@ void testClear()
     std::cout << "PASS - testClear" << std::endl;
 }
 
+void testOperatorSubscript()
+{
+    std::vector<KeyString> keys = {"a", "b", "c"};
+    std::vector<ValueInt> values = {1, 2, 3};
+
+    HashMap<KeyString, ValueInt> map(keys.cbegin(), keys.cend(), values.cbegin(), values.cend());
+
+    assert(map.getSize() == 3);
+
+    int a = map["a"];
+    assert(a == 1);
+
+    int b = map["b"];
+    assert(b == 2);
+
+    int c = map["c"];
+    assert(c == 3);
+
+    assert(map.getSize() == 3);
+
+    map["a"] = 111;
+    assert(map["a"] == 111);
+
+    map["b"] = 222;
+    assert(map["b"] == 222);
+
+    map["c"] = 333;
+    assert(map["c"] == 333);
+
+    assert(map.getSize() == 3);
+
+    map["d"];
+    assert(map.getSize() == 4);
+    map["e"];
+    assert(map.getSize() == 5);
+
+    // check operator[] of const version
+
+    const HashMap<KeyString, ValueInt> constMap(keys.cbegin(), keys.cend(),
+                                            values.cbegin(), values.cend());
+
+    assert(constMap.getSize() == 3);
+
+    int aa = constMap["a"];
+    assert(aa == 1);
+
+    int bb = constMap["b"];
+    assert(bb == 2);
+
+    int cc = constMap["c"];
+    assert(cc == 3);
+
+    assert(constMap.getSize() == 3);
+
+    constMap["a"];
+    constMap["gg"];
+
+    assert(constMap.getSize() == 3);
+
+
+    std::cout << "PASS - testOperatorSubscript" << std::endl;
+}
+
 int main()
 {
     std::cout << "~~~~~ Starting tests ~~~~~" << std::endl;
@@ -212,7 +284,7 @@ int main()
     testConstruct1();
     testCapacityAndSizeResizeMap();
     testClear();
-
+    testOperatorSubscript();
 
     std::cout << "~~~~~ All tests are PASSED ~~~~~" << std::endl;
 
