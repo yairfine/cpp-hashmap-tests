@@ -16,6 +16,8 @@
 #define INITIAL_CAPACITY 16
 #define INITIAL_SIZE 0
 
+#define ITERATIONS 10
+
 void testDefaultConstruct()
 {
     HashMap<KeyT1, ValueT1> map;
@@ -123,21 +125,13 @@ void testErase()
 
 }
 
-void testClear()
-{
-
-}
-
 void testCapacityAndSizeResizeMap()
 {
-    std::vector<KeyT2> keys;
-    std::vector<ValueT2> values;
-
     HashMap<KeyT2, ValueT2> map;
 
     int i = 1;
 
-    for (int n = 0; n <= 19; n++)
+    for (int n = 0; n <= ITERATIONS; n++)
     {
         while (i <= INITIAL_CAPACITY * pow(2, n) * 0.75)
         {
@@ -152,7 +146,7 @@ void testCapacityAndSizeResizeMap()
 
     i--;
 
-    for (int n = 19; n >= 0; n--)
+    for (int n = ITERATIONS; n >= 0; n--)
     {
         while (i >= INITIAL_CAPACITY * pow(2, n) * 0.25)
         {
@@ -167,6 +161,43 @@ void testCapacityAndSizeResizeMap()
     std::cout << "PASS - testCapacityAndSizeResize" << std::endl;
 }
 
+void testClear()
+{
+    HashMap<KeyT2, ValueT2> map;
+
+    int i = 1;
+
+    for (int n = 0; n <= ITERATIONS; n++)
+    {
+        while (i <= INITIAL_CAPACITY * pow(2, n) * 0.75)
+        {
+            map.insert(i, i);
+            i++;
+        }
+    }
+    i--;
+
+    assert(map.getSize() == i);
+    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
+
+    map.clear();
+
+    assert(map.getSize() == INITIAL_SIZE);
+    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
+
+    map.insert(1,1);
+
+    // todo make sure this is the appropriate behavior:
+
+    assert(map.getSize() == 1);
+    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
+
+    map.erase(1);
+
+    assert(map.getSize() == INITIAL_SIZE);
+    assert(map.getCapacity() == INITIAL_CAPACITY);
+}
+
 int main()
 {
     std::cout << "~~~~~ Starting tests ~~~~~" << std::endl;
@@ -174,6 +205,10 @@ int main()
     testDefaultConstruct();
     testConstruct1();
     testCapacityAndSizeResizeMap();
+    testClear();
+
+
+    std::cout << "~~~~~ All tests are PASSED ~~~~~" << std::endl;
 
     return 0;
 }
