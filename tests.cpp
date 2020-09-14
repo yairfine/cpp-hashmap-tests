@@ -313,9 +313,9 @@ void testOperatorEqualsAndNotEquals()
     std::vector<ValueInt> values = {1, 2, 3};
 
     HashMap<KeyString, ValueInt> mapString1(keysString.cbegin(), keysString.cend(),
-                                      values.cbegin(), values.cend());
+                                            values.cbegin(), values.cend());
     HashMap<KeyString, ValueInt> mapString2(keysString.cbegin(), keysString.cend(),
-                                      values.cbegin(), values.cend());
+                                            values.cbegin(), values.cend());
 
     assert(mapEmpty1 == mapEmpty2);
     assert(!(mapEmpty1 != mapEmpty2));
@@ -361,9 +361,30 @@ void testOperatorEqualsAndNotEquals()
     std::cout << "PASS - testOperatorEqualsAndNotEquals" << std::endl;
 }
 
+void testIterators()
+{
+    std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 15};
+    std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 15};
+
+    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
+
+    std::vector<int>::const_iterator iter = values.begin();
+
+    for (auto it = map.begin(); it != map.end(); it++)
+    {
+        assert(it->first == *iter && it->second == *iter);
+        iter++;
+    }
+
+
+    std::cout << "PASS = testIterators" << std::endl;
+}
+
+
 int main()
 {
-    std::cout << "~~~~~ Starting tests ~~~~~" << std::endl;
+    std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
 
     testDefaultConstruct();
     testConstruct1();
@@ -371,8 +392,9 @@ int main()
     testClear();
     testOperatorSubscript();
     testOperatorEqualsAndNotEquals();
+    testIterators();
 
-    std::cout << "~~~~~ All tests are PASSED ~~~~~" << std::endl;
+    std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
 
     return 0;
 }
