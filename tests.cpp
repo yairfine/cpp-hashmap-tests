@@ -5,9 +5,13 @@
 #include "HashMap.hpp"
 #include <cassert>
 #include <vector>
+#include <cmath>
 
 #define KeyT1 std::string
 #define ValueT1 int
+
+#define KeyT2 int
+#define ValueT2 int
 
 #define INITIAL_CAPACITY 16
 #define INITIAL_SIZE 0
@@ -28,6 +32,11 @@ void testDefaultConstruct()
 
 
     std::cout << "PASS - testDefaultConstruct" << std::endl;
+}
+
+void testAt()
+{
+
 }
 
 void testConstruct1()
@@ -104,7 +113,59 @@ void testConstruct1()
     std::cout << "PASS - testConstruct1" << std::endl;
 }
 
+void testInsert()
+{
 
+}
+
+void testErase()
+{
+
+}
+
+void testClear()
+{
+
+}
+
+void testCapacityAndSizeResizeMap()
+{
+    std::vector<KeyT2> keys;
+    std::vector<ValueT2> values;
+
+    HashMap<KeyT2, ValueT2> map;
+
+    int i = 1;
+
+    for (int n = 0; n <= 19; n++)
+    {
+        while (i <= INITIAL_CAPACITY * pow(2, n) * 0.75)
+        {
+            map.insert(i, i);
+
+            assert(map.getSize() == i);
+            assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, n));
+
+            i++;
+        }
+    }
+
+    i--;
+
+    for (int n = 19; n >= 0; n--)
+    {
+        while (i >= INITIAL_CAPACITY * pow(2, n) * 0.25)
+        {
+            assert(map.getSize() == i);
+            assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, n));
+
+            map.erase(i);
+            i--;
+        }
+    }
+
+    std::cout << "PASS - testCapacityAndSizeResize" << std::endl;
+}
 
 int main()
 {
@@ -112,53 +173,7 @@ int main()
 
     testDefaultConstruct();
     testConstruct1();
-
-//
-//
-//    std::vector<std::string> names = {"a", "b", "c", "d", "e", "f", "g", "a", "b"};
-//    std::vector<int> grades = {1, 2, 3, 4, 5, 6, 7, 100, 200};
-//
-//    HashMap<std::string, int> map1(names.begin(), names.end(), grades.begin(), grades.end());
-//
-//    map1.print();
-//
-//    std::cout << map1.bucket_index("a") << std::endl;
-//    std::cout << map1.bucket_index("b") << std::endl;
-//    std::cout << map1.bucket_index("c") << std::endl;
-
-
-
-//    HashMap<std::string, int> map;
-//
-//    map.insert("tatiana", 222);
-//    map.insert("hasgjkhaskdgjsdgy", 15);
-//    map.insert("yairrr", 100);
-//    map.insert("lobo", 50);
-//    map.insert("Dor", 0);
-//    map.insert("Nina", 100);
-//    map.insert("eden", 60);
-//    map.insert("Tol", 84);
-//
-////    map.print();
-
-
-//    map1.at("e") = 767;
-
-
-//    std::cout << map.bucket_size("Nina") << " " << map.bucket_size("Tol") << std::endl;
-//
-//    std::string search = "tatiana";
-//
-//    std::cout << "contains key? " << map.contains_key(search) << std::endl;
-//
-//    try
-//    {
-//        std::cout << "tatiana key? " << map.at(search) << std::endl;
-//    }
-//    catch (std::exception &e)
-//    {
-//        std::cout << e.what() << std::endl;
-//    }
+    testCapacityAndSizeResizeMap();
 
     return 0;
 }
