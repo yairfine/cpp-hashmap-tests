@@ -81,7 +81,8 @@ void testConstruct1()
         auto it = keys.begin();
         it++;
         HashMap<KeyString, ValueInt> map(it, keys.end(), values.begin(), values.end());
-        assert(!"Constructor1 should throw an exception if iterators are not at the same length");
+        assert(!" ~~~ Constructor1 should throw an exception if iterators are not at the same "
+                "length ~~~ ");
     }
     catch (std::exception &e)
     {
@@ -92,7 +93,8 @@ void testConstruct1()
         auto it = keys.end();
         it--;
         HashMap<KeyString, ValueInt> map(keys.begin(), it, values.begin(), values.end());
-        assert(!"Constructor1 should throw an exception if iterators are not at the same length");
+        assert(!" ~~~ Constructor1 should throw an exception if iterators are not at the same "
+                "length ~~~ ");
     }
     catch (std::exception &e)
     {
@@ -103,7 +105,8 @@ void testConstruct1()
         auto it = values.begin();
         it++;
         HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), it, values.end());
-        assert(!"Constructor1 should throw an exception if iterators are not at the same length");
+        assert(!" ~~~ Constructor1 should throw an exception if iterators are not at the same "
+                "length ~~~ ");
     }
     catch (std::exception &e)
     {
@@ -114,7 +117,8 @@ void testConstruct1()
         auto it = values.end();
         it--;
         HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), it);
-        assert(!"Constructor1 should throw an exception if iterators are not at the same length");
+        assert(!" ~~~ Constructor1 should throw an exception if iterators are not at the same "
+                "length ~~~ ");
     }
     catch (std::exception &e)
     {
@@ -224,12 +228,18 @@ void testOperatorSubscript()
 
     int a = map["a"];
     assert(a == 1);
+    a = 10;
+    assert(map["a"] == 1);
 
     int b = map["b"];
     assert(b == 2);
+    b = 20;
+    assert(map["b"] == 2);
 
     int c = map["c"];
     assert(c == 3);
+    c = 30;
+    assert(map["c"] == 3);
 
     assert(map.getSize() == 3);
 
@@ -244,20 +254,27 @@ void testOperatorSubscript()
 
     assert(map.getSize() == 3);
 
-    map["d"];
-    assert(map.getSize() == 4);
-    map["e"];
-    assert(map.getSize() == 5);
+    try
+    {
+        map["d"];
+        assert(map.getSize() == 4);
+    }
+    catch (std::exception &e)
+    {
+        assert(!" ~~~ Operator [] should NOT throw any exception ~~~ ");
+    }
 
     // check operator[] of const version
 
     const HashMap<KeyString, ValueInt> constMap(keys.cbegin(), keys.cend(),
-                                            values.cbegin(), values.cend());
+                                                values.cbegin(), values.cend());
 
     assert(constMap.getSize() == 3);
 
     int aa = constMap["a"];
     assert(aa == 1);
+    aa = 10;
+    assert(constMap["a"] == 1);
 
     int bb = constMap["b"];
     assert(bb == 2);
@@ -267,8 +284,14 @@ void testOperatorSubscript()
 
     assert(constMap.getSize() == 3);
 
-    constMap["a"];
-    constMap["gg"];
+    try
+    {
+        int dd = constMap["d"];
+    }
+    catch (std::exception &e)
+    {
+        assert(!" ~~~ Operator [] should NOT throw any exception ~~~ ");
+    }
 
     assert(constMap.getSize() == 3);
 
