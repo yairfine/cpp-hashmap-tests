@@ -22,6 +22,10 @@ Run the tests using:
 WINDOWS:  $ ./compiledTests.exe
 LINUX:    $ compiledTests
 ```
+For running with valgrind, use:
+```$ xslt
+$ valgrind --leak-check=full --track-origin=yes compiledTests
+```
 
 ## Cyber
 ![coding gif](https://media.giphy.com/media/iAKXyzgLVtKsU/giphy.gif)
