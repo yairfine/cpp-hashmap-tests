@@ -7,11 +7,10 @@
 #include <vector>
 #include <cmath>
 
-#define KeyT1 std::string
-#define ValueT1 int
+#define KeyString std::string
+#define KeyInt int
+#define ValueInt int
 
-#define KeyT2 int
-#define ValueT2 int
 
 #define INITIAL_CAPACITY 16
 #define INITIAL_SIZE 0
@@ -20,7 +19,7 @@
 
 void testDefaultConstruct()
 {
-    HashMap<KeyT1, ValueT1> map;
+    HashMap<KeyString, ValueInt> map;
 
     assert(map.getSize() == INITIAL_SIZE);
     assert(map.getCapacity() == INITIAL_CAPACITY);
@@ -43,10 +42,10 @@ void testAt()
 
 void testConstruct1()
 {
-    std::vector<KeyT1> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
-    std::vector<ValueT1> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-    HashMap<KeyT1, ValueT1> map(keys.begin(), keys.end(), values.begin(), values.end());
+    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
 
     assert(map.getSize() == 9);
     assert(map.at("a") == 1);
@@ -60,10 +59,10 @@ void testConstruct1()
     assert(map.at("i") == 9);
 
 
-    std::vector<KeyT1> keys2 = {"a", "b", "c", "d", "e", "f", "g", "a", "b", "h", "i"};
-    std::vector<ValueT1> values2 = {1, 2, 3, 4, 5, 6, 7, 100, 200, 8, 9};
+    std::vector<KeyString> keys2 = {"a", "b", "c", "d", "e", "f", "g", "a", "b", "h", "i"};
+    std::vector<ValueInt> values2 = {1, 2, 3, 4, 5, 6, 7, 100, 200, 8, 9};
 
-    HashMap<KeyT1, ValueT1> map2(keys2.begin(), keys2.end(), values2.begin(), values2.end());
+    HashMap<KeyString, ValueInt> map2(keys2.begin(), keys2.end(), values2.begin(), values2.end());
 
     assert(map.getSize() == 9);
     assert(map2.at("a") == 100);
@@ -80,7 +79,7 @@ void testConstruct1()
     {
         auto it = keys.begin();
         it++;
-        HashMap<KeyT1, ValueT1> map(it, keys.end(), values.begin(), values.end());
+        HashMap<KeyString, ValueInt> map(it, keys.end(), values.begin(), values.end());
         assert(!"Constructor1 should throw an exception if iterators are not at the same length");
     }
     catch (std::exception &e) {}
@@ -89,7 +88,7 @@ void testConstruct1()
     {
         auto it = keys.end();
         it--;
-        HashMap<KeyT1, ValueT1> map(keys.begin(), it, values.begin(), values.end());
+        HashMap<KeyString, ValueInt> map(keys.begin(), it, values.begin(), values.end());
         assert(!"Constructor1 should throw an exception if iterators are not at the same length");
     }
     catch (std::exception &e) {}
@@ -98,7 +97,7 @@ void testConstruct1()
     {
         auto it = values.begin();
         it++;
-        HashMap<KeyT1, ValueT1> map(keys.begin(), keys.end(), it, values.end());
+        HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), it, values.end());
         assert(!"Constructor1 should throw an exception if iterators are not at the same length");
     }
     catch (std::exception &e) {}
@@ -107,7 +106,7 @@ void testConstruct1()
     {
         auto it = values.end();
         it--;
-        HashMap<KeyT1, ValueT1> map(keys.begin(), keys.end(), values.begin(), it);
+        HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), it);
         assert(!"Constructor1 should throw an exception if iterators are not at the same length");
     }
     catch (std::exception &e) {}
@@ -127,7 +126,7 @@ void testErase()
 
 void testCapacityAndSizeResizeMap()
 {
-    HashMap<KeyT2, ValueT2> map;
+    HashMap<KeyInt, ValueInt> map;
 
     int i = 1;
 
@@ -163,7 +162,7 @@ void testCapacityAndSizeResizeMap()
 
 void testClear()
 {
-    HashMap<KeyT2, ValueT2> map;
+    HashMap<KeyInt, ValueInt> map;
 
     // Insert elements to the Hash map
 
