@@ -6,7 +6,7 @@ $ git clone https://github.com/yairfine/cpp-tests-ex6.git
 ```
 Copy your `HashMap.hpp` file to the tests directory, using:
 ```$xslt
-WINDOWS:  $ copy HashMap.hpp ./cpp-tests-ex6
+WINDOWS:  $ copy .\HashMap.hpp .\cpp-tests-ex6
 LINUX:    $ cp HashMap.hpp ./cpp-tests-ex6
 ```
 Move to the tests directory, using:
@@ -19,8 +19,8 @@ $ g++ tests.cpp -o compiledTests
 ```
 Run the tests using:
 ```$ xslt
-WINDOWS:  $ ./compiledTests.exe
-LINUX:    $ compiledTests
+WINDOWS:  $ .\compiledTests.exe
+LINUX:    $ ./compiledTests
 ```
 For running with valgrind, use:
 ```$ xslt
