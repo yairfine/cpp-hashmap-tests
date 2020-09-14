@@ -165,6 +165,8 @@ void testClear()
 {
     HashMap<KeyT2, ValueT2> map;
 
+    // Insert elements to the Hash map
+
     int i = 1;
 
     for (int n = 0; n <= ITERATIONS; n++)
@@ -176,6 +178,8 @@ void testClear()
         }
     }
     i--;
+
+    // checking 'clear' methods
 
     assert(map.getSize() == i);
     assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
@@ -196,6 +200,9 @@ void testClear()
 
     assert(map.getSize() == INITIAL_SIZE);
     assert(map.getCapacity() == INITIAL_CAPACITY);
+
+
+    std::cout << "PASS - testClear" << std::endl;
 }
 
 int main()
