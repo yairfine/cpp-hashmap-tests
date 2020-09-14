@@ -1,4 +1,4 @@
-# cpp-tests-ex6
+# Tests for ex6 in c++ summer course
 ## Usage
 On your project directory, clone the tests using:
 ```$xslt
@@ -13,19 +13,19 @@ Move to the tests directory, using:
 ```$xslt
 $ cd cpp-tests-ex6
 ```
-Compile the tests using:
+Compile the tests, using:
 ```$ xslt
 $ g++ tests.cpp -o compiledTests
 ```
-Run the tests using:
+Run the tests, using:
 ```$ xslt
 WINDOWS:  $ .\compiledTests.exe
 LINUX:    $ ./compiledTests
 ```
 For running with valgrind, use:
 ```$ xslt
-$ valgrind --leak-check=full --track-origin=yes compiledTests
+$ valgrind --leak-check=full --track-origins=yes compiledTests
 ```
 
-## Cyber
+## Good luck!
 ![coding gif](https://media.giphy.com/media/iAKXyzgLVtKsU/giphy.gif)
