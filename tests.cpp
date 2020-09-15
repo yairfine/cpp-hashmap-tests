@@ -38,7 +38,43 @@ void testDefaultConstruct()
 
 void testAt()
 {
+    std::vector<KeyString> keys = {"a", "b", "c", "d", "e"};
+    std::vector<ValueInt> values = {1, 2, 3, 4, 5};
 
+    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+
+    assert(map.at("a") == 1);
+    assert(map.at("b") == 2);
+    assert(map.at("c") == 3);
+    assert(map.at("d") == 4);
+    assert(map.at("e") == 5);
+
+    map.at("a") = 100;
+    assert(map.at("a") == 100);
+    assert (map.getSize() == 5);
+
+    try
+    {
+        map.at("f") = 6;
+        assert(!" ~~~ function '.at' should not allow search for a non-existent key ~~~ ");
+    }
+    catch (const std::exception &e)
+    {
+    }
+
+    try
+    {
+        map.at("f");
+        assert(!" ~~~ function '.at' should not allow search for a non-existent key ~~~ ");
+    }
+    catch (const std::exception &e)
+    {
+    }
+
+    assert (map.getSize() == 5);
+
+
+    std::cout << "PASS - testAt" << std::endl;
 }
 
 void testConstruct1()
@@ -129,12 +165,44 @@ void testConstruct1()
 
 void testInsert()
 {
+    HashMap<KeyString, ValueInt> map;
 
+    bool b = map.insert("a", 10);
+    assert(b == true);
+    assert(map.getSize() == 1);
+
+    b = map.insert("a", 100);
+    assert(b == false);
+    assert(map.getSize() == 1);
+
+    b = map.insert("a", 10);
+    assert(b == false);
+    assert(map.getSize() == 1);
+
+    std::cout << "PASS - testInsert" << std::endl;
 }
 
 void testErase()
 {
+    std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 15};
+    std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 15};
 
+    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
+
+    bool b = map.erase(0);
+    assert(b == true);
+    assert(map.getSize() == 7);
+
+    b = map.erase(4);
+    assert(b == true);
+    assert(map.getSize() == 6);
+
+    b = map.erase(10);
+    assert(b == false);
+    assert(map.getSize() == 6);
+
+    std::cout << "PASS - testErase" << std::endl;
 }
 
 void testCapacityAndSizeResizeMap()
@@ -271,7 +339,14 @@ void testOperatorSubscript()
         assert(!" ~~~ Operator [] should NOT throw any exception ~~~ ");
     }
 
-    // check operator[] of const version
+
+    std::cout << "PASS - testOperatorSubscript" << std::endl;
+}
+
+void testOperatorSubscriptConst()
+{
+    std::vector<KeyString> keys = {"a", "b", "c"};
+    std::vector<ValueInt> values = {1, 2, 3};
 
     const HashMap<KeyString, ValueInt> constMap(keys.cbegin(), keys.cend(),
                                                 values.cbegin(), values.cend());
@@ -306,8 +381,8 @@ void testOperatorSubscript()
 
 void testOperatorEqualsAndNotEquals()
 {
-    HashMap<KeyInt, ValueInt> mapEmpty1;
-    HashMap<KeyInt, ValueInt> mapEmpty2;
+    HashMap<KeyInt, ValueInt> emptyMap1;
+    HashMap<KeyInt, ValueInt> emptyMap2;
 
     std::vector<KeyString> keysString = {"1", "2", "3"};
     std::vector<ValueInt> values = {1, 2, 3};
@@ -317,8 +392,8 @@ void testOperatorEqualsAndNotEquals()
     HashMap<KeyString, ValueInt> mapString2(keysString.cbegin(), keysString.cend(),
                                             values.cbegin(), values.cend());
 
-    assert(mapEmpty1 == mapEmpty2);
-    assert(!(mapEmpty1 != mapEmpty2));
+    assert(emptyMap1 == emptyMap2);
+    assert(!(emptyMap1 != emptyMap2));
 
     assert(mapString1 == mapString2);
     assert(!(mapString1 != mapString2));
@@ -354,31 +429,147 @@ void testOperatorEqualsAndNotEquals()
 
     map.clear();
 
-    assert(map != mapEmpty1);
-    assert(!(map == mapEmpty1));
+    assert(map != emptyMap1);
+    assert(!(map == emptyMap1));
 
 
     std::cout << "PASS - testOperatorEqualsAndNotEquals" << std::endl;
 }
 
-void testIterators()
+void testIteratorsEmpty()
 {
+    std::unordered_map<KeyString, ValueInt> emptyStdMap;
+
+    auto beginStdMap = emptyStdMap.begin();
+    auto endStdMap = emptyStdMap.end();
+
+    assert(beginStdMap == beginStdMap);
+    assert(endStdMap == endStdMap);
+    assert(beginStdMap == endStdMap);
+
+    for (const auto &j : emptyStdMap)
+    {
+        assert(!"In empty unordered_map there should not be iterations here");
+    }
+
+
+    HashMap<KeyString, ValueInt> emptyMap;
+
+    auto iterBegin = emptyMap.begin();
+    auto iterEnd = emptyMap.end();
+
+    assert(iterBegin == iterBegin);
+    assert(iterEnd == iterEnd);
+    assert(iterBegin == iterEnd);
+
+    for (const auto &i : emptyMap)
+    {
+        assert(!" ~~~ In empty HashMap there should not be iterations here ~~~ ");
+    }
+
+
+    std::cout << "PASS = testIteratorsEmprty" << std::endl;
+}
+
+void testIterators1()
+{
+
     std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 15};
     std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 15};
 
     HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
                                   values.cbegin(), values.cend());
 
-    std::vector<int>::const_iterator iter = values.begin();
+    std::vector<int>::const_iterator vecIter = values.begin();
+
+    map.print();
 
     for (auto it = map.begin(); it != map.end(); it++)
     {
-        assert(it->first == *iter && it->second == *iter);
-        iter++;
+        assert(it->first == *vecIter && it->second == *vecIter);
+        assert(it->first == (*it).first && it->second == (*it).second);
+
+        vecIter++;
+    }
+
+    vecIter = values.begin();
+
+    for (auto it = map.cbegin(); it != map.cend(); it++)
+    {
+        assert(it->first == *vecIter && it->second == *vecIter);
+        assert(it->first == (*it).first && it->second == (*it).second);
+
+        vecIter++;
     }
 
 
-    std::cout << "PASS = testIterators" << std::endl;
+    std::cout << "PASS = testIterators1" << std::endl;
+}
+
+void testIterators2()
+{
+
+    std::vector<KeyInt> keysInt = {3, 4, 5, 6, 15};
+    std::vector<ValueInt> values = {3, 4, 5, 6, 15};
+
+    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
+
+    std::vector<int>::const_iterator vecIter = values.begin();
+
+    for (auto it = map.begin(); it != map.end(); it++)
+    {
+        assert(it->first == *vecIter && it->second == *vecIter);
+        assert(it->first == (*it).first && it->second == (*it).second);
+
+        vecIter++;
+    }
+
+    vecIter = values.begin();
+
+    for (auto it = map.cbegin(); it != map.cend(); it++)
+    {
+        assert(it->first == *vecIter && it->second == *vecIter);
+        assert(it->first == (*it).first && it->second == (*it).second);
+
+        vecIter++;
+    }
+
+
+    std::cout << "PASS = testIterators2" << std::endl;
+}
+
+void testIterators3()
+{
+
+    std::vector<KeyInt> keysInt = {1, 4, 5, 6, 9, 14};
+    std::vector<ValueInt> values = {1, 4, 5, 6, 9, 14};
+
+    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
+
+    std::vector<int>::const_iterator vecIter = values.begin();
+
+    for (auto it = map.begin(); it != map.end(); it++)
+    {
+        assert(it->first == *vecIter && it->second == *vecIter);
+        assert(it->first == (*it).first && it->second == (*it).second);
+
+        vecIter++;
+    }
+
+    vecIter = values.begin();
+
+    for (auto it = map.cbegin(); it != map.cend(); it++)
+    {
+        assert(it->first == *vecIter && it->second == *vecIter);
+        assert(it->first == (*it).first && it->second == (*it).second);
+
+        vecIter++;
+    }
+
+
+    std::cout << "PASS = testIterators3" << std::endl;
 }
 
 
@@ -387,12 +578,19 @@ int main()
     std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
 
     testDefaultConstruct();
+    testAt();
     testConstruct1();
+    testInsert();
+    testErase();
     testCapacityAndSizeResizeMap();
     testClear();
     testOperatorSubscript();
+    testOperatorSubscriptConst();
     testOperatorEqualsAndNotEquals();
-    testIterators();
+    testIteratorsEmpty();
+    testIterators1();
+    testIterators2();
+    testIterators3();
 
     std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
 
