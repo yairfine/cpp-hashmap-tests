@@ -376,7 +376,7 @@ void testOperatorSubscriptConst()
     }
 
 
-    std::cout << "PASS - testOperatorSubscript" << std::endl;
+    std::cout << "PASS - testOperatorSubscriptConst" << std::endl;
 }
 
 void testOperatorEqualsAndNotEquals()
