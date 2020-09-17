@@ -1,5 +1,5 @@
 //
-// Created by Yuser on 14/09/2020.
+// Created by Yair on 14/09/2020.
 //
 #include <iostream>
 #include "HashMap.hpp"
@@ -17,6 +17,45 @@
 #define INITIAL_SIZE 0
 
 #define ITERATIONS 12
+
+void testDefaultConstruct();
+void testAt();
+void testConstruct1();
+void testInsert();
+void testErase();
+void testCapacityAndSizeResizeMap();
+void testClear();
+void testOperatorSubscript();
+void testOperatorSubscriptConst();
+void testOperatorEqualsAndNotEquals();
+void testIteratorsEmpty();
+void testIterators1();
+void testIterators2();
+void testIterators3();
+
+int main()
+{
+    std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
+
+    testDefaultConstruct();
+    testAt();
+    testConstruct1();
+    testInsert();
+    testErase();
+    testCapacityAndSizeResizeMap();
+    testClear();
+    testOperatorSubscript();
+    testOperatorSubscriptConst();
+    testOperatorEqualsAndNotEquals();
+    testIteratorsEmpty();
+    testIterators1();
+    testIterators2();
+    testIterators3();
+
+    std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
+
+    return 0;
+}
 
 void testDefaultConstruct()
 {
@@ -573,26 +612,3 @@ void testIterators3()
 }
 
 
-int main()
-{
-    std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
-
-    testDefaultConstruct();
-    testAt();
-    testConstruct1();
-    testInsert();
-    testErase();
-    testCapacityAndSizeResizeMap();
-    testClear();
-    testOperatorSubscript();
-    testOperatorSubscriptConst();
-    testOperatorEqualsAndNotEquals();
-    testIteratorsEmpty();
-    testIterators1();
-    testIterators2();
-    testIterators3();
-
-    std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
-
-    return 0;
-}
