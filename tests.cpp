@@ -1,8 +1,9 @@
 //
 // Created by Yair on 14/09/2020.
 //
-#include <iostream>
+
 #include "HashMap.hpp"
+#include <iostream>
 #include <cassert>
 #include <vector>
 #include <cmath>
@@ -16,7 +17,7 @@
 #define INITIAL_CAPACITY 16
 #define INITIAL_SIZE 0
 
-#define ITERATIONS 12
+#define ITERATIONS 15
 
 void testDefaultConstruct();
 void testAt();
@@ -32,6 +33,7 @@ void testIteratorsEmpty();
 void testIterators1();
 void testIterators2();
 void testIterators3();
+void testIterators4();
 
 int main()
 {
@@ -51,6 +53,8 @@ int main()
     testIterators1();
     testIterators2();
     testIterators3();
+    testIterators4();
+
 
     std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
 
@@ -64,12 +68,6 @@ void testDefaultConstruct()
     assert(map.getSize() == INITIAL_SIZE);
     assert(map.getCapacity() == INITIAL_CAPACITY);
     assert(map.empty() == true);
-
-    map.insert("a", 1);
-
-    assert(map.getSize() == 1);
-    assert(map.getCapacity() == INITIAL_CAPACITY);
-    assert(map.empty() == false);
 
 
     std::cout << "PASS - testDefaultConstruct" << std::endl;
@@ -205,18 +203,25 @@ void testConstruct1()
 void testInsert()
 {
     HashMap<KeyString, ValueInt> map;
+    
+    assert(map.empty() == true);  
+    assert(map.getCapacity() == INITIAL_CAPACITY);
 
     bool b = map.insert("a", 10);
     assert(b == true);
     assert(map.getSize() == 1);
+    assert(map.empty() == false);
 
     b = map.insert("a", 100);
     assert(b == false);
     assert(map.getSize() == 1);
+    assert(map.empty() == false);
 
     b = map.insert("a", 10);
     assert(b == false);
     assert(map.getSize() == 1);
+    assert(map.empty() == false);
+
 
     std::cout << "PASS - testInsert" << std::endl;
 }
@@ -611,4 +616,39 @@ void testIterators3()
     std::cout << "PASS = testIterators3" << std::endl;
 }
 
+void testIterators4()
+{
+    HashMap<KeyInt, ValueInt> map;
+    std::vector<int> vec;
 
+    // Insert elements to the map
+
+    int i = 1;
+
+    for (int n = 0; n <= ITERATIONS; n++)
+    {
+        while (i <= INITIAL_CAPACITY * pow(2, n) * 0.75)
+        {
+            map.insert(i, i);
+            vec.push_back(i);
+            i++;
+        }
+    }
+    i--;
+
+    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
+    assert(map.getSize() == i);
+    assert(vec.size() == i);
+    
+
+    auto vecIter = vec.begin();
+
+    for (auto it = map.begin(); it != map.end(); it++)
+    {
+        assert(it->first == *vecIter && it->second == *vecIter);   
+        assert(it->first == (*it).first && it->second == (*it).second);        
+        
+        vecIter++;
+    }
+
+}
