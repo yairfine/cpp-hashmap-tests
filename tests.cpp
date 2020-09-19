@@ -18,6 +18,8 @@
 #define INITIAL_SIZE 0
 
 #define ITERATIONS 15
+#define I_UPPER_BOUND 1000
+#define RAND_RANGE 1000
 
 void testDefaultConstruct();
 void testAt();
@@ -654,4 +656,29 @@ void testIterators4()
         vecIter++;
     }
 
+}
+
+void testIterators5()
+{
+    std::unordered_map<int, int> unOrMap;
+    HashMap<int, int> hashMap;
+    
+    for (int i = 0; i < I_UPPER_BOUND; i++)
+    {
+        int randInt = rand() % RAND_RANGE + 1;
+        
+        unOrMap.insert(randInt, randInt);
+        hashMap.insert(randInt, randInt);
+    }
+    
+        // @ add a lambda compare function
+        
+        auto maxUnOr = std::max_element(unOrMap.cbegin(), unOrMap.cend());
+        auto maxHash = std::max_element(HashMap.cbegin(), hashMap.cend());
+
+        assert(maxUnOr->first == maxHash->first);
+    
+
+    
+    std::cout << "PASS - testIterators5" << std::endl;
 }
