@@ -34,6 +34,9 @@ void testIterators1();
 void testIterators2();
 void testIterators3();
 void testIterators4();
+void testIterators5();
+
+// newTest ??
 
 int main()
 {
