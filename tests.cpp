@@ -445,7 +445,7 @@ void testOperatorSubscriptConst()
 
         assert(constMap.size() == 3);
 
-        int dd = constMap["d"]; // should be an undefined behavior
+        constMap["d"]; // should be an undefined behavior
     }
     catch (std::exception &e)
     {
@@ -520,6 +520,7 @@ void testOperatorEqualsAndNotEquals()
 
 void testIteratorsEmpty()
 {
+    // this unordered_map part is only for demonstrating..
     std::unordered_map<KeyString, ValueInt> emptyStdMap;
 
     auto beginStdMap = emptyStdMap.begin();
@@ -534,7 +535,7 @@ void testIteratorsEmpty()
         assert(!"In empty unordered_map there should not be iterations here");
     }
 
-
+    // this is the real test here:
     HashMap<KeyString, ValueInt> emptyMap;
 
     auto iterBegin = emptyMap.begin();
@@ -556,7 +557,6 @@ void testIteratorsEmpty()
 
 void testIterators1()
 {
-
     std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 15};
     std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 15};
 
