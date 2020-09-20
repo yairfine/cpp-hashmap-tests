@@ -1,4 +1,4 @@
-# Tests for ex6 - c++ summer course
+# Tests for ex6 - summer course c++
 ## Usage
 On your project directory, clone the tests using:
 ```$xslt
