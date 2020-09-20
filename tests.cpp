@@ -17,7 +17,18 @@
 #define INITIAL_CAPACITY 16
 #define INITIAL_SIZE 0
 
-#define ITERATIONS 16
+
+#ifdef VAL
+
+#define ITERATIONS 8 
+#define TOTAL_WORK 50
+
+#else
+
+#define ITERATIONS 17
+#define TOTAL_WORK 86
+
+#endif
 
 
 void testDefaultConstruct();
@@ -34,13 +45,13 @@ void testIteratorsEmpty();
 void testIterators1();
 void testIterators2();
 void testIterators3();
-void testIterators4();
 
-ProgressBar myProgressBar(78);
+ProgressBar myProgressBar(TOTAL_WORK);
 
 int main()
 {
     std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
+
 
     testDefaultConstruct();
     testAt();
@@ -56,11 +67,9 @@ int main()
     // testIterators1();
     // testIterators2();
     // testIterators3();
-    // testIterators4();
 
-    myProgressBar.printOutputMsg(std::cout);    
-    
-    std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
+
+    std::cout << std::endl << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
 
     return 0;
 }
@@ -644,46 +653,5 @@ void testIterators3()
 
 
     myProgressBar.addToOutputMsg("PASS = testIterators3");
-    myProgressBar++;
-}
-
-void testIterators4()
-{
-    HashMap<KeyInt, ValueInt> map;
-    std::vector<int> vec;
-
-    // Insert elements to the map
-
-    int i = 1;
-
-    for (int n = 0; n <= ITERATIONS; n++)
-    {
-        while (i <= INITIAL_CAPACITY * pow(2, n) * 0.75)
-        {
-            map.insert(i, i);
-            vec.push_back(i);
-            i++;
-        }
-        
-        myProgressBar++;
-    }
-    i--;
-
-    assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
-    assert(map.size() == i);
-    assert(vec.size() == i);
-    
-
-    auto vecIter = vec.begin();
-
-    for (auto it = map.begin(); it != map.end(); it++)
-    {
-        assert(it->first == *vecIter && it->second == *vecIter);   
-        assert(it->first == (*it).first && it->second == (*it).second);        
-        
-        vecIter++;
-    }
-
-    myProgressBar.addToOutputMsg("PASS = testIterators4");
     myProgressBar++;
 }
