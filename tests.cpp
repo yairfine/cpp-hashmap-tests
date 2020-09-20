@@ -6,9 +6,9 @@
 #include "ProgressBar.hpp"
 #include <iostream>
 #include <cassert>
-#include <vector>
 #include <cmath>
 #include <unordered_map>
+#include <vector>
 
 #define KeyString std::string
 #define KeyInt int
@@ -25,8 +25,8 @@
 
 #else
 
-#define ITERATIONS 18
-#define TOTAL_WORK 90
+#define ITERATIONS 17
+#define TOTAL_WORK 86
 
 #endif
 
@@ -534,7 +534,7 @@ void testIteratorsEmpty()
 
     for (const auto &j : emptyStdMap)
     {
-        assert(!"In empty unordered_map there should not be iterations here");
+        assert(!" ~~~ In empty unordered_map there should not be any iterations here ~~~ ");
     }
 
     // this is the real test here:
@@ -549,7 +549,7 @@ void testIteratorsEmpty()
 
     for (const auto &i : emptyMap)
     {
-        assert(!" ~~~ In empty HashMap there should not be iterations here ~~~ ");
+        assert(!" ~~~ In empty HashMap there should not be any iterations here ~~~ ");
     }
 
 
