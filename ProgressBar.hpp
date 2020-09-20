@@ -2,6 +2,7 @@
 #define PROFRESS_BAR_HPP
 
 #include <iostream>
+
 #define BAR_SIZE 50
 
 class ProgressBar
@@ -13,16 +14,16 @@ private:
 
     float _progress;
     
-    std::string _output;
+    std::string _outputMsg;
     
     bool _debugMode;
 
 public:
     ProgressBar() : _barSize(BAR_SIZE), _totalWork(BAR_SIZE), _doneWork(0),
-                    _progress(0), _output("\n\n"), _debugMode(true) {};
+                    _progress(0), _outputMsg("\n\n"), _debugMode(true) {};
 
     ProgressBar(int totalWork) : _barSize(BAR_SIZE), _totalWork(totalWork), _doneWork(0),
-                                 _progress(0), _output("\n\n"), _debugMode(false) {};
+                                 _progress(0), _outputMsg("\n\n"), _debugMode(false) {};
 
     ProgressBar &operator+=(int const &rhs)
     {
@@ -53,12 +54,12 @@ public:
     void addToOutputMsg(const char *txt)
     {
         std::string msg(txt);
-        _output = _output + msg;
+        _outputMsg = _outputMsg + msg;
     }
 
     void printOutputMsg(std::ostream &os)
     {
-        os << _output;
+        os << _outputMsg;
         os.flush();
     }
 
@@ -78,8 +79,6 @@ public:
         os << "] " << int (_progress * 100) << " %\r";
         
         os.flush();
-
-        if (_progress);
     }
 
     int determineTotalWork() const
