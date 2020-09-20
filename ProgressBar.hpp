@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#define BAR_SIZE 30
+#define BAR_SIZE 35
 
 class ProgressBar
 {
