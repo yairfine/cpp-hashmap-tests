@@ -28,7 +28,7 @@ LINUX:    $ ./compiledTests
 ```
 
 ## Valgrind
-For running with Valgrind, compile again with `-DVAL`:
+For running with Valgrind, **compile again** with `-DVAL` flag:
 ```$ xslt
 $ g++ tests.cpp -DVAL -o compiledTests
 ```
