@@ -39,6 +39,23 @@ void testIterators4();
 
 ProgressBar myProgressBar(78);
 
+void test()
+{
+    std::unordered_map<int,int> map;
+
+    for (int i = 0; i < 20; i++)
+    {
+        map.at(i) = i;
+    }
+
+    map.at(4) = 30;
+
+    for (auto it = map.begin(); it != map.end(); it++)
+    {
+        std::cout << it->first << " " << it->second << std::endl;
+    }
+}
+
 int main()
 {
     std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
@@ -61,6 +78,8 @@ int main()
     // testIterators4();
 
     myProgressBar.printOutputMsg(std::cout);
+
+    // test();
     
     
     std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
@@ -556,8 +575,6 @@ void testIterators1()
                                   values.cbegin(), values.cend());
 
     std::vector<int>::const_iterator vecIter = values.begin();
-
-    map.print();
 
     for (auto it = map.begin(); it != map.end(); it++)
     {
