@@ -14,7 +14,6 @@
 #define KeyInt int
 #define ValueInt int
 
-
 #define INITIAL_CAPACITY 16
 #define INITIAL_SIZE 0
 
@@ -39,23 +38,6 @@ void testIterators4();
 
 ProgressBar myProgressBar(78);
 
-void test()
-{
-    std::unordered_map<int,int> map;
-
-    for (int i = 0; i < 20; i++)
-    {
-        map.at(i) = i;
-    }
-
-    map.at(4) = 30;
-
-    for (auto it = map.begin(); it != map.end(); it++)
-    {
-        std::cout << it->first << " " << it->second << std::endl;
-    }
-}
-
 int main()
 {
     std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
@@ -77,10 +59,7 @@ int main()
     // testIterators3();
     // testIterators4();
 
-    myProgressBar.printOutputMsg(std::cout);
-
-    // test();
-    
+    myProgressBar.printOutputMsg(std::cout);    
     
     std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
 
@@ -113,10 +92,12 @@ void testAt()
     assert(map.at("d") == 4);
     assert(map.at("e") == 5);
 
+    // checking func 'at' is assinable:
     map.at("a") = 100;
     assert(map.at("a") == 100);
     assert (map.size() == 5);
 
+    // checking non-existing key:
     try
     {
         map.at("f") = 6;
