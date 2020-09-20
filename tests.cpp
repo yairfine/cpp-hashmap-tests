@@ -63,10 +63,10 @@ int main()
     testOperatorSubscript();
     testOperatorSubscriptConst();
     testOperatorEqualsAndNotEquals();
-    // testIteratorsEmpty();
-    // testIterators1();
-    // testIterators2();
-    // testIterators3();
+    testIteratorsEmpty();
+    testIterators1();
+    testIterators2();
+    testIterators3();
 
 
     std::cout << std::endl << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
