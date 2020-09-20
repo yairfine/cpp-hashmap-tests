@@ -18,7 +18,8 @@
 #define INITIAL_CAPACITY 16
 #define INITIAL_SIZE 0
 
-#define ITERATIONS 15
+#define ITERATIONS 16
+
 
 void testDefaultConstruct();
 void testAt();
@@ -36,12 +37,13 @@ void testIterators2();
 void testIterators3();
 void testIterators4();
 
-ProgressBar myProgressBar(74);
+ProgressBar myProgressBar(78);
 
 int main()
 {
     std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
 
+    
     testDefaultConstruct();
     testAt();
     testConstruct1();
@@ -60,6 +62,7 @@ int main()
 
     myProgressBar.printOutputMsg(std::cout);
     
+    
     std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
 
     return 0;
@@ -74,8 +77,7 @@ void testDefaultConstruct()
     assert(map.empty() == true);
 
 
-    std::string msg = "PASS - testDefaultConstruct\n";
-    myProgressBar.addToOutput(msg);
+    myProgressBar.addToOutputMsg("PASS - testDefaultConstruct\n");
     myProgressBar++;
 }
 
@@ -117,8 +119,7 @@ void testAt()
     assert (map.getSize() == 5);
 
 
-    std::string msg = "PASS - testAt\n";
-    myProgressBar.addToOutput(msg);
+    myProgressBar.addToOutputMsg("PASS - testAt\n");
     myProgressBar++;
 }
 
@@ -204,8 +205,8 @@ void testConstruct1()
     {
     }
 
-    std::string msg = "PASS - testConstruct1\n";
-    myProgressBar.addToOutput(msg);
+    
+    myProgressBar.addToOutputMsg("PASS - testConstruct1\n");
     myProgressBar++;
 }
 
@@ -232,8 +233,7 @@ void testInsert()
     assert(map.empty() == false);
 
     
-    std::string msg = "PASS - testInsert\n";
-    myProgressBar.addToOutput(msg);
+    myProgressBar.addToOutputMsg("PASS - testInsert\n");
     myProgressBar++;
 }
 
@@ -257,8 +257,8 @@ void testErase()
     assert(b == false);
     assert(map.getSize() == 6);
 
-    std::string msg = "PASS - testErase\n";
-    myProgressBar.addToOutput(msg);
+
+    myProgressBar.addToOutputMsg("PASS - testErase\n");
     myProgressBar++;
 }
 
@@ -301,8 +301,7 @@ void testCapacityAndSizeResizeMap()
     }
 
 
-    std::string msg = "PASS - testCapacityAndSizeResize\n";
-    myProgressBar.addToOutput(msg);
+    myProgressBar.addToOutputMsg("PASS - testCapacityAndSizeResize\n");
     myProgressBar++;
 }
 
@@ -349,8 +348,8 @@ void testClear()
     assert(map.getSize() == INITIAL_SIZE);
     assert(map.getCapacity() == INITIAL_CAPACITY);
 
-    std::string msg = "PASS - testClear\n";
-    myProgressBar.addToOutput(msg);
+    
+    myProgressBar.addToOutputMsg("PASS - testClear\n");
     myProgressBar++;
 }
 
@@ -409,8 +408,7 @@ void testOperatorSubscript()
     }
 
 
-    std::string msg = "PASS - testOperatorSubscript\n";
-    myProgressBar.addToOutput(msg);
+    myProgressBar.addToOutputMsg("PASS - testOperatorSubscript\n");
     myProgressBar++;
 }
 
@@ -447,8 +445,7 @@ void testOperatorSubscriptConst()
     }
 
 
-    std::string msg = "PASS - testOperatorSubscriptConst\n";
-    myProgressBar.addToOutput(msg);
+    myProgressBar.addToOutputMsg("PASS - testOperatorSubscriptConst\n");
     myProgressBar++;
 }
 
@@ -509,8 +506,7 @@ void testOperatorEqualsAndNotEquals()
     assert(!(map == emptyMap1));
 
 
-    std::string msg = "PASS - testOperatorEqualsAndNotEquals\n";
-    myProgressBar.addToOutput(msg);
+    myProgressBar.addToOutputMsg("PASS - testOperatorEqualsAndNotEquals\n");
     myProgressBar++;
 }
 
@@ -546,7 +542,8 @@ void testIteratorsEmpty()
     }
 
 
-    std::cout << "PASS = testIteratorsEmprty" << std::endl;
+    myProgressBar.addToOutputMsg("PASS = testIteratorsEmprty\n");
+    myProgressBar++;
 }
 
 void testIterators1()
@@ -581,7 +578,8 @@ void testIterators1()
     }
 
 
-    std::cout << "PASS = testIterators1" << std::endl;
+    myProgressBar.addToOutputMsg("PASS = testIterators1\n");
+    myProgressBar++;
 }
 
 void testIterators2()
@@ -614,7 +612,8 @@ void testIterators2()
     }
 
 
-    std::cout << "PASS = testIterators2" << std::endl;
+    myProgressBar.addToOutputMsg("PASS = testIterators2\n");
+    myProgressBar++;
 }
 
 void testIterators3()
@@ -647,7 +646,8 @@ void testIterators3()
     }
 
 
-    std::cout << "PASS = testIterators3" << std::endl;
+    myProgressBar.addToOutputMsg("PASS = testIterators3\n");
+    myProgressBar++;
 }
 
 void testIterators4()
@@ -667,6 +667,8 @@ void testIterators4()
             vec.push_back(i);
             i++;
         }
+        
+        myProgressBar++;
     }
     i--;
 
@@ -685,4 +687,6 @@ void testIterators4()
         vecIter++;
     }
 
+    myProgressBar.addToOutputMsg("PASS = testIterators4\n");
+    myProgressBar++;
 }

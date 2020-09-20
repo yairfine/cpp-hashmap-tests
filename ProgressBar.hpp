@@ -50,8 +50,9 @@ public:
         return *this;
     }
 
-    void addToOutput(const std::string &msg)
+    void addToOutputMsg(const char *txt)
     {
+        std::string msg(txt);
         _output = _output + msg;
     }
 
@@ -83,7 +84,7 @@ public:
 
     int determineTotalWork() const
     {
-        std::cout << "Done work recorded: " << _doneWork << std::endl;
+        std::cout << "\n\n'Done-work' recorded: " << _doneWork << std::endl;
 
         return _doneWork;
     }
