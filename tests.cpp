@@ -72,8 +72,8 @@ void testDefaultConstruct()
 {
     HashMap<KeyString, ValueInt> map;
 
-    assert(map.getSize() == INITIAL_SIZE);
-    assert(map.getCapacity() == INITIAL_CAPACITY);
+    assert(map.size() == INITIAL_SIZE);
+    assert(map.capacity() == INITIAL_CAPACITY);
     assert(map.empty() == true);
 
 
@@ -96,7 +96,7 @@ void testAt()
 
     map.at("a") = 100;
     assert(map.at("a") == 100);
-    assert (map.getSize() == 5);
+    assert (map.size() == 5);
 
     try
     {
@@ -116,7 +116,7 @@ void testAt()
     {
     }
 
-    assert (map.getSize() == 5);
+    assert (map.size() == 5);
 
 
     myProgressBar.addToOutputMsg("PASS - testAt\n");
@@ -130,7 +130,7 @@ void testConstruct1()
 
     HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
 
-    assert(map.getSize() == 9);
+    assert(map.size() == 9);
     assert(map.at("a") == 1);
     assert(map.at("b") == 2);
     assert(map.at("c") == 3);
@@ -146,7 +146,7 @@ void testConstruct1()
 
     HashMap<KeyString, ValueInt> map2(keys2.begin(), keys2.end(), values2.begin(), values2.end());
 
-    assert(map.getSize() == 9);
+    assert(map.size() == 9);
     assert(map2.at("a") == 100);
     assert(map2.at("b") == 200);
     assert(map2.at("c") == 3);
@@ -215,21 +215,21 @@ void testInsert()
     HashMap<KeyString, ValueInt> map;
     
     assert(map.empty() == true);  
-    assert(map.getCapacity() == INITIAL_CAPACITY);
+    assert(map.capacity() == INITIAL_CAPACITY);
 
     bool b = map.insert("a", 10);
     assert(b == true);
-    assert(map.getSize() == 1);
+    assert(map.size() == 1);
     assert(map.empty() == false);
 
     b = map.insert("a", 100);
     assert(b == false);
-    assert(map.getSize() == 1);
+    assert(map.size() == 1);
     assert(map.empty() == false);
 
     b = map.insert("a", 10);
     assert(b == false);
-    assert(map.getSize() == 1);
+    assert(map.size() == 1);
     assert(map.empty() == false);
 
     
@@ -247,15 +247,15 @@ void testErase()
 
     bool b = map.erase(0);
     assert(b == true);
-    assert(map.getSize() == 7);
+    assert(map.size() == 7);
 
     b = map.erase(4);
     assert(b == true);
-    assert(map.getSize() == 6);
+    assert(map.size() == 6);
 
     b = map.erase(10);
     assert(b == false);
-    assert(map.getSize() == 6);
+    assert(map.size() == 6);
 
 
     myProgressBar.addToOutputMsg("PASS - testErase\n");
@@ -274,8 +274,8 @@ void testCapacityAndSizeResizeMap()
         {
             map.insert(i, i);
 
-            assert(map.getSize() == i);
-            assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, n));
+            assert(map.size() == i);
+            assert(map.capacity() == INITIAL_CAPACITY * pow(2, n));
 
             i++;
 
@@ -290,8 +290,8 @@ void testCapacityAndSizeResizeMap()
     {
         while (i >= INITIAL_CAPACITY * pow(2, n) * 0.25)
         {
-            assert(map.getSize() == i);
-            assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, n));
+            assert(map.size() == i);
+            assert(map.capacity() == INITIAL_CAPACITY * pow(2, n));
 
             map.erase(i);
             i--;
@@ -328,25 +328,25 @@ void testClear()
 
     // checking 'clear' methods
 
-    assert(map.getSize() == i);
-    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
+    assert(map.size() == i);
+    assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
 
     map.clear();
 
-    assert(map.getSize() == INITIAL_SIZE);
-    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
+    assert(map.size() == INITIAL_SIZE);
+    assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
 
     map.insert(1, 1);
 
     // checking capacity resizing rules
 
-    assert(map.getSize() == 1);
-    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
+    assert(map.size() == 1);
+    assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
 
     map.erase(1);
 
-    assert(map.getSize() == INITIAL_SIZE);
-    assert(map.getCapacity() == INITIAL_CAPACITY);
+    assert(map.size() == INITIAL_SIZE);
+    assert(map.capacity() == INITIAL_CAPACITY);
 
     
     myProgressBar.addToOutputMsg("PASS - testClear\n");
@@ -360,7 +360,7 @@ void testOperatorSubscript()
 
     HashMap<KeyString, ValueInt> map(keys.cbegin(), keys.cend(), values.cbegin(), values.cend());
 
-    assert(map.getSize() == 3);
+    assert(map.size() == 3);
 
     try
     {
@@ -380,7 +380,7 @@ void testOperatorSubscript()
         c = 30;
         assert(map["c"] == 3);
 
-        assert(map.getSize() == 3);
+        assert(map.size() == 3);
 
         map["a"] = 111;
         assert(map["a"] == 111);
@@ -391,16 +391,16 @@ void testOperatorSubscript()
         map["c"] = 333;
         assert(map["c"] == 333);
 
-        assert(map.getSize() == 3);
+        assert(map.size() == 3);
 
         map["d"] = 444;
         assert(map["d"] == 444);
 
-        assert(map.getSize() == 4);
+        assert(map.size() == 4);
 
         map["e"];
 
-        assert(map.getSize() == 5);
+        assert(map.size() == 5);
     }
     catch (std::exception &e)
     {
@@ -420,7 +420,7 @@ void testOperatorSubscriptConst()
     const HashMap<KeyString, ValueInt> constMap(keys.cbegin(), keys.cend(),
                                                 values.cbegin(), values.cend());
 
-    assert(constMap.getSize() == 3);
+    assert(constMap.size() == 3);
 
     try
     {
@@ -435,7 +435,7 @@ void testOperatorSubscriptConst()
         int cc = constMap["c"];
         assert(cc == 3);
 
-        assert(constMap.getSize() == 3);
+        assert(constMap.size() == 3);
 
         int dd = constMap["d"]; // should be an undefined behavior
     }
@@ -672,8 +672,8 @@ void testIterators4()
     }
     i--;
 
-    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
-    assert(map.getSize() == i);
+    assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
+    assert(map.size() == i);
     assert(vec.size() == i);
     
 
