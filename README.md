@@ -27,6 +27,7 @@ WINDOWS:  $ .\compiledTests.exe
 LINUX:    $ ./compiledTests
 ```
 
+## Valgrind
 For running with Valgrind, compile again with `-DVAL`:
 ```$ xslt
 $ g++ tests.cpp -DVAL -o compiledTests
