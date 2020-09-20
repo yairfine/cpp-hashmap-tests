@@ -25,8 +25,8 @@
 
 #else
 
-#define ITERATIONS 17
-#define TOTAL_WORK 86
+#define ITERATIONS 18
+#define TOTAL_WORK 90
 
 #endif
 
@@ -67,7 +67,7 @@ int main()
     testIterators1();
     testIterators2();
     testIterators3();
-
+    
 
     std::cout << std::endl << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
 
