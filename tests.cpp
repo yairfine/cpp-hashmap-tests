@@ -42,7 +42,6 @@ int main()
 {
     std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
 
-    
     testDefaultConstruct();
     testAt();
     testConstruct1();
