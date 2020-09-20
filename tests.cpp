@@ -74,7 +74,7 @@ void testDefaultConstruct()
     assert(map.empty() == true);
 
 
-    myProgressBar.addToOutputMsg("PASS - testDefaultConstruct\n");
+    myProgressBar.addToOutputMsg("PASS - testDefaultConstruct");
     myProgressBar++;
 }
 
@@ -118,7 +118,7 @@ void testAt()
     assert (map.size() == 5);
 
 
-    myProgressBar.addToOutputMsg("PASS - testAt\n");
+    myProgressBar.addToOutputMsg("PASS - testAt");
     myProgressBar++;
 }
 
@@ -205,7 +205,7 @@ void testConstruct1()
     }
 
     
-    myProgressBar.addToOutputMsg("PASS - testConstruct1\n");
+    myProgressBar.addToOutputMsg("PASS - testConstruct1");
     myProgressBar++;
 }
 
@@ -232,7 +232,7 @@ void testInsert()
     assert(map.empty() == false);
 
     
-    myProgressBar.addToOutputMsg("PASS - testInsert\n");
+    myProgressBar.addToOutputMsg("PASS - testInsert");
     myProgressBar++;
 }
 
@@ -257,7 +257,7 @@ void testErase()
     assert(map.size() == 6);
 
 
-    myProgressBar.addToOutputMsg("PASS - testErase\n");
+    myProgressBar.addToOutputMsg("PASS - testErase");
     myProgressBar++;
 }
 
@@ -300,7 +300,7 @@ void testCapacityAndSizeResizeMap()
     }
 
 
-    myProgressBar.addToOutputMsg("PASS - testCapacityAndSizeResize\n");
+    myProgressBar.addToOutputMsg("PASS - testCapacityAndSizeResize");
     myProgressBar++;
 }
 
@@ -348,7 +348,7 @@ void testClear()
     assert(map.capacity() == INITIAL_CAPACITY);
 
     
-    myProgressBar.addToOutputMsg("PASS - testClear\n");
+    myProgressBar.addToOutputMsg("PASS - testClear");
     myProgressBar++;
 }
 
@@ -407,7 +407,7 @@ void testOperatorSubscript()
     }
 
 
-    myProgressBar.addToOutputMsg("PASS - testOperatorSubscript\n");
+    myProgressBar.addToOutputMsg("PASS - testOperatorSubscript");
     myProgressBar++;
 }
 
@@ -444,7 +444,7 @@ void testOperatorSubscriptConst()
     }
 
 
-    myProgressBar.addToOutputMsg("PASS - testOperatorSubscriptConst\n");
+    myProgressBar.addToOutputMsg("PASS - testOperatorSubscriptConst");
     myProgressBar++;
 }
 
@@ -505,7 +505,7 @@ void testOperatorEqualsAndNotEquals()
     assert(!(map == emptyMap1));
 
 
-    myProgressBar.addToOutputMsg("PASS - testOperatorEqualsAndNotEquals\n");
+    myProgressBar.addToOutputMsg("PASS - testOperatorEqualsAndNotEquals");
     myProgressBar++;
 }
 
@@ -541,7 +541,7 @@ void testIteratorsEmpty()
     }
 
 
-    myProgressBar.addToOutputMsg("PASS = testIteratorsEmprty\n");
+    myProgressBar.addToOutputMsg("PASS = testIteratorsEmprty");
     myProgressBar++;
 }
 
@@ -575,7 +575,7 @@ void testIterators1()
     }
 
 
-    myProgressBar.addToOutputMsg("PASS = testIterators1\n");
+    myProgressBar.addToOutputMsg("PASS = testIterators1");
     myProgressBar++;
 }
 
@@ -609,7 +609,7 @@ void testIterators2()
     }
 
 
-    myProgressBar.addToOutputMsg("PASS = testIterators2\n");
+    myProgressBar.addToOutputMsg("PASS = testIterators2");
     myProgressBar++;
 }
 
@@ -643,7 +643,7 @@ void testIterators3()
     }
 
 
-    myProgressBar.addToOutputMsg("PASS = testIterators3\n");
+    myProgressBar.addToOutputMsg("PASS = testIterators3");
     myProgressBar++;
 }
 
@@ -684,6 +684,6 @@ void testIterators4()
         vecIter++;
     }
 
-    myProgressBar.addToOutputMsg("PASS = testIterators4\n");
+    myProgressBar.addToOutputMsg("PASS = testIterators4");
     myProgressBar++;
 }
