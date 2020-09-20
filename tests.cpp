@@ -25,8 +25,8 @@
 
 #else
 
-#define ITERATIONS 18
-#define TOTAL_WORK 90
+#define ITERATIONS 17
+#define TOTAL_WORK 86
 
 #endif
 
