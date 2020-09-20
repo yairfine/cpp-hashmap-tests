@@ -338,7 +338,7 @@ void testClear()
 
     map.insert(1, 1);
 
-    // todo make sure this is the appropriate behavior:
+    // checking capacity resizing rules
 
     assert(map.getSize() == 1);
     assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
