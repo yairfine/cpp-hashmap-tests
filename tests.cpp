@@ -67,7 +67,7 @@ int main()
     testIterators1();
     testIterators2();
     testIterators3();
-    
+
 
     std::cout << std::endl << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
 
@@ -348,11 +348,13 @@ void testClear()
 
     // checking capacity resizing rules
 
+    // after every insert, the capacity should maintain the rule: [ 0.25 * capacity <= size <= 0.75 * capacity ].
     assert(map.size() == 1);
     assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
 
     map.erase(1);
 
+    // after every erase, the capacity should maintain the rule: [ 0.25 * capacity <= size <= 0.75 * capacity ].
     assert(map.size() == INITIAL_SIZE);
     assert(map.capacity() == INITIAL_CAPACITY);
 
