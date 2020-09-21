@@ -621,7 +621,7 @@ void testBucketIndex()
         for (auto it = keys.begin(); it != keys.end(); it++)
         {
             size_t bucketIndex = map.bucket_index(*it);
-            assert((bucketIndex > 0) && (bucketIndex < map.capacity() - 1));
+            assert((bucketIndex > 0) && (bucketIndex <= map.capacity() - 1));
         }
     }
     catch(const std::exception& e)
