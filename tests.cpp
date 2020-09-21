@@ -47,6 +47,7 @@ void testIterators1();
 void testIterators2();
 void testIterators3();
 
+
 ProgressBar myProgressBar(TOTAL_WORK);
 
 int main()
@@ -88,9 +89,10 @@ void testDefaultConstruct()
     assert(map.capacity() == INITIAL_CAPACITY);
     assert(map.empty() == true);
 
-
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testDefaultConstruct");
     myProgressBar++;
+    #endif
 }
 
 void testAt()
@@ -132,9 +134,10 @@ void testAt()
 
     assert (map.size() == 5);
 
-
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testAt");
     myProgressBar++;
+    #endif
 }
 
 void testConstruct1()
@@ -219,9 +222,10 @@ void testConstruct1()
     {
     }
 
-    
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testConstruct1");
     myProgressBar++;
+    #endif
 }
 
 void testInsert()
@@ -246,9 +250,10 @@ void testInsert()
     assert(map.size() == 1);
     assert(map.empty() == false);
 
-    
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testInsert");
     myProgressBar++;
+    #endif
 }
 
 void testErase()
@@ -271,9 +276,10 @@ void testErase()
     assert(b == false);
     assert(map.size() == 6);
 
-
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testErase");
     myProgressBar++;
+    #endif
 }
 
 void testCapacityAndSizeResizeMap()
@@ -294,8 +300,9 @@ void testCapacityAndSizeResizeMap()
             i++;
 
         }
-        
+        #ifndef VAL
         myProgressBar++;
+        #endif
     }
 
     i--;
@@ -310,13 +317,16 @@ void testCapacityAndSizeResizeMap()
             map.erase(i);
             i--;
         }
-
+        #ifndef VAL
         myProgressBar++;
+        #endif
     }
 
 
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testCapacityAndSizeResize");
     myProgressBar++;
+    #endif
 }
 
 void testClear()
@@ -335,8 +345,9 @@ void testClear()
             i++;
 
         }
-        
+        #ifndef VAL
         myProgressBar ++;
+        #endif
     }
     i--;
 
@@ -365,8 +376,10 @@ void testClear()
     assert(map.capacity() == INITIAL_CAPACITY);
 
     
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testClear");
     myProgressBar++;
+    #endif
 }
 
 void testOperatorSubscript()
@@ -424,8 +437,10 @@ void testOperatorSubscript()
     }
 
 
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testOperatorSubscript");
     myProgressBar++;
+    #endif
 }
 
 void testOperatorSubscriptConst()
@@ -461,8 +476,10 @@ void testOperatorSubscriptConst()
     }
 
 
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testOperatorSubscriptConst");
     myProgressBar++;
+    #endif
 }
 
 void testOperatorEqualsAndNotEquals()
@@ -512,8 +529,9 @@ void testOperatorEqualsAndNotEquals()
             i++;
 
         }
-
+        #ifndef VAL
         myProgressBar++;
+        #endif
     }
 
     map.clear();
@@ -522,8 +540,10 @@ void testOperatorEqualsAndNotEquals()
     assert(!(map == emptyMap1));
 
 
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testOperatorEqualsAndNotEquals");
     myProgressBar++;
+    #endif
 }
 
 void testIteratorsEmpty()
@@ -559,8 +579,10 @@ void testIteratorsEmpty()
     }
 
 
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS = testIteratorsEmprty");
     myProgressBar++;
+    #endif
 }
 
 void testIterators1()
@@ -592,8 +614,10 @@ void testIterators1()
     }
 
 
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS = testIterators1");
     myProgressBar++;
+    #endif
 }
 
 void testIterators2()
@@ -626,8 +650,10 @@ void testIterators2()
     }
 
 
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS = testIterators2");
     myProgressBar++;
+    #endif
 }
 
 void testIterators3()
@@ -659,7 +685,8 @@ void testIterators3()
         vecIter++;
     }
 
-
+    #ifndef VAL
     myProgressBar.addToOutputMsg("PASS = testIterators3");
     myProgressBar++;
+    #endif
 }
