@@ -22,12 +22,12 @@
 #ifdef VAL
 
 #define ITERATIONS 8 
-#define TOTAL_WORK 52
+#define TOTAL_WORK 53
 
 #else
 
 #define ITERATIONS 17
-#define TOTAL_WORK 88
+#define TOTAL_WORK 89
 
 #endif
 
@@ -35,6 +35,7 @@
 void testDefaultConstruct();
 void testAt();
 void testConstruct1();
+void testConstruct1Capacity();
 void testInsert();
 void testErase();
 void testCapacityAndSizeResizeMap();
@@ -61,6 +62,7 @@ int main()
     testDefaultConstruct();
     testAt();
     testConstruct1();
+    testConstruct1Capacity();
     testInsert();
     testErase();
     testCapacityAndSizeResizeMap();
@@ -74,7 +76,8 @@ int main()
     testIterators1();
     testIterators2();
     testIterators3();
-    
+
+    // testCtorInputIterators.
 
     auto finish = std::chrono::steady_clock::now();
     auto elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double> >(finish - start).count();
@@ -228,6 +231,23 @@ void testConstruct1()
 
     #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testConstruct1");
+    myProgressBar++;
+    #endif
+}
+
+void testConstruct1Capacity()
+{
+    std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+    std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+
+    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
+
+    assert(map.capacity() == 2 * INITIAL_CAPACITY);
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testConstruct1Capacity");
     myProgressBar++;
     #endif
 }
