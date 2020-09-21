@@ -784,7 +784,7 @@ void testIterators3()
     }
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators3");
+    myProgressBar.addToOutputMsg("PASS = testIterators3                            \n");
     myProgressBar++;
     #endif
 }
