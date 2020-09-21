@@ -9,6 +9,7 @@
 #include <cmath>
 #include <unordered_map>
 #include <vector>
+#include <chrono>
 
 #define KeyString std::string
 #define KeyInt int
@@ -51,6 +52,7 @@ ProgressBar myProgressBar(TOTAL_WORK);
 int main()
 {
     std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
+    auto start = std::chrono::steady_clock::now();
 
 
     testDefaultConstruct();
@@ -69,7 +71,11 @@ int main()
     testIterators3();
 
 
-    std::cout << std::endl << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
+    auto finish = std::chrono::steady_clock::now();
+    auto elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double> >(finish - start).count();
+    
+    std::cout << std::endl << std::endl << "Time elapsed: " << elapsed_seconds << " seconds" << std::endl;
+    std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
 
     return 0;
 }
