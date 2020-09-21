@@ -78,6 +78,11 @@ public:
             }
         }
 
+        const iterator &operator->() const
+        {
+            return &(operator*());
+        }
+
         bool operator==(const iterator &rhs) const
         {
             return (this->_currentElement == rhs._currentElement);
