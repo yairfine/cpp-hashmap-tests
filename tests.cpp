@@ -22,12 +22,12 @@
 #ifdef VAL
 
 #define ITERATIONS 8 
-#define TOTAL_WORK 50
+#define TOTAL_WORK 52
 
 #else
 
 #define ITERATIONS 17
-#define TOTAL_WORK 86
+#define TOTAL_WORK 88
 
 #endif
 
@@ -42,6 +42,8 @@ void testClear();
 void testOperatorSubscript();
 void testOperatorSubscriptConst();
 void testOperatorEqualsAndNotEquals();
+void testBucketSize();
+void testBucketIndex();
 void testIteratorsEmpty();
 void testIterators1();
 void testIterators2();
@@ -66,11 +68,13 @@ int main()
     testOperatorSubscript();
     testOperatorSubscriptConst();
     testOperatorEqualsAndNotEquals();
+    testBucketSize();
+    testBucketIndex();
     testIteratorsEmpty();
     testIterators1();
     testIterators2();
     testIterators3();
-
+    
 
     auto finish = std::chrono::steady_clock::now();
     auto elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double> >(finish - start).count();
@@ -542,6 +546,80 @@ void testOperatorEqualsAndNotEquals()
 
     #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testOperatorEqualsAndNotEquals");
+    myProgressBar++;
+    #endif
+}
+
+void testBucketSize()
+{
+    std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+
+    try
+    {
+        for (auto it = keys.begin(); it != keys.end(); it++)
+        {
+            size_t bucketSize = map.bucket_size(*it);
+            assert(bucketSize > 0);
+        }
+    }
+    catch(const std::exception& e)
+    {
+        assert(!" ~~~~ There should be NO EXCEPTION here! ~~~~ ");
+    }
+
+    try
+    {
+        map.bucket_size("x");
+        assert(!" ~~~ function '.bucket_size' should throw an exception for a non-existent key ~~~ ");
+
+    }
+    catch(const std::exception& e)
+    {
+    }
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testBucketSize");
+    myProgressBar++;
+    #endif
+}
+
+void testBucketIndex()
+{
+    std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+
+    try
+    {
+        for (auto it = keys.begin(); it != keys.end(); it++)
+        {
+            size_t bucketIndex = map.bucket_index(*it);
+            assert((bucketIndex > 0) && (bucketIndex < map.capacity() - 1));
+        }
+    }
+    catch(const std::exception& e)
+    {
+        assert(!" ~~~~ There should be NO EXCEPTION here! ~~~~ ");
+    }
+
+    try
+    {
+        map.bucket_index("x");
+        assert(!" ~~~ function '.bucket_index' should throw an exception for a non-existent key ~~~ ");
+
+    }
+    catch(const std::exception& e)
+    {
+    }
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testBucketIndex");
     myProgressBar++;
     #endif
 }
