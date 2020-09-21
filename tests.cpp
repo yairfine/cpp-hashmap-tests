@@ -22,12 +22,12 @@
 #ifdef VAL
 
 #define ITERATIONS 8 
-#define TOTAL_WORK 53
+#define TOTAL_WORK 54
 
 #else
 
 #define ITERATIONS 17
-#define TOTAL_WORK 89
+#define TOTAL_WORK 90
 
 #endif
 
@@ -45,6 +45,7 @@ void testOperatorSubscriptConst();
 void testOperatorEqualsAndNotEquals();
 void testBucketSize();
 void testBucketIndex();
+void testContainsKey();
 void testIteratorsEmpty();
 void testIterators1();
 void testIterators2();
@@ -72,6 +73,7 @@ int main()
     testOperatorEqualsAndNotEquals();
     testBucketSize();
     testBucketIndex();
+    testContainsKey();
     testIteratorsEmpty();
     testIterators1();
     testIterators2();
@@ -640,6 +642,27 @@ void testBucketIndex()
 
     #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testBucketIndex");
+    myProgressBar++;
+    #endif
+}
+
+void testContainsKey()
+{
+    std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+
+    for (auto it = keys.begin(); it != keys.end(); it++)
+    {
+        assert(map.contains_key(*it));
+    }
+
+    assert(!map.contains_key("x"));
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testContainsKey");
     myProgressBar++;
     #endif
 }
