@@ -60,11 +60,12 @@ public:
 
         iterator operator++(int)
         {
+            _currentElement++;
             _iter++;
             return *this;
         }
 
-        iterator operator*()
+        iterator operator*() const
         {
             if (_checkArray[_currentElement] == true)
             {
@@ -75,6 +76,16 @@ public:
                 _checkArray[_currentElement] = true;
                 return *(_iter);
             }
+        }
+
+        bool operator==(const iterator &rhs) const
+        {
+            return (this->_currentElement == rhs._currentElement);
+        }
+
+        bool operator!=(const iterator &rhs) const
+        {
+            return (this->_currentElement != rhs._currentElement);
         }
     }
 
