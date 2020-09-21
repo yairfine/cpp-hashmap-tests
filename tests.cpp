@@ -47,7 +47,9 @@ void testIterators1();
 void testIterators2();
 void testIterators3();
 
+#ifndef VAL
 ProgressBar myProgressBar(TOTAL_WORK);
+#endif
 
 int main()
 {
