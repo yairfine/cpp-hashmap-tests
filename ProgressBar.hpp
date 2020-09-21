@@ -54,7 +54,7 @@ public:
     void addToOutputMsg(const char *txt)
     {
         std::string msg(txt);
-        std::string space("                                 \n\n");
+        std::string space("                                 \n");
         _outputMsg = msg + space;
         printOutputMsg(std::cout);
         _outputMsg = "\n\n";
