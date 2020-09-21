@@ -4,6 +4,7 @@
 
 #include "HashMap.hpp"
 #include "ProgressBar.hpp"
+#include "InputIterator.hpp"
 #include <iostream>
 #include <cassert>
 #include <cmath>
@@ -51,6 +52,35 @@ void testIterators1();
 void testIterators2();
 void testIterators3();
 
+void test()
+{
+    std::vector<int> vector = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    InputIterator<int> II(vector);
+
+    auto input_iterator_begin = II.begin();
+    auto input_iterator_end = II.end();
+
+    // for (auto it = vector.begin(); it != vector.end(); it++)
+    // {
+    //     std::cout << (*it) << std::endl;
+    // }
+
+    // std::cout << (*input_iterator_begin) << std::endl;
+    std::cout << (*input_iterator_begin) << std::endl;
+    input_iterator_begin++;
+    std::cout << (*input_iterator_begin) << std::endl;
+    input_iterator_begin++;
+    std::cout << (*input_iterator_begin) << std::endl;
+
+
+    for (auto it = II.begin(); it != II.end(); it++)
+    {
+        std::cout << (*it) << std::endl;
+    }
+
+}
+
 
 ProgressBar myProgressBar(TOTAL_WORK);
 
@@ -59,6 +89,7 @@ int main()
     std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
     auto start = std::chrono::steady_clock::now();
 
+    test();
 
     testDefaultConstruct();
     testAt();
@@ -78,6 +109,7 @@ int main()
     testIterators1();
     testIterators2();
     testIterators3();
+
 
     // testCtorInputIterators.
 

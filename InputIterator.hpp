@@ -10,14 +10,14 @@ private:
     std::vector<T> _vec;
 
 public:
-    InputIterator() : _vec(std::vector<T> vec) {};
+    InputIterator() : _vec() {};
     InputIterator(std::vector<T> vec) : _vec(vec) {};
 
     class iterator
     {
     private:
-        std::vector<T> _vector;
-        std::vector<T>::iterator _iter;
+        typename std::vector<T> _vector;
+        typename std::vector<T>::iterator _iter;
 
         int _currentElement;
 
@@ -25,16 +25,16 @@ public:
         bool *_checkArray;
     
     public:
-        iterator(const std::vector &vector, bool isEnd) : _vector(vector), _size(_vector.size())
+        iterator(const std::vector<T> &vector, bool isEnd) : _vector(vector), _size(_vector.size())
         {
             if (isEnd)
             {
-                _currentElement(_size);
+                _currentElement = _size;
                 _iter = _vector.begin();
             }
             else
             {
-                _currentElement(0);
+                _currentElement = 0;
                 _iter = _vector.end(); 
             }
 
@@ -65,7 +65,7 @@ public:
             return *this;
         }
 
-        iterator operator*() const
+        T operator*() const
         {
             if (_checkArray[_currentElement] == true)
             {
@@ -74,13 +74,13 @@ public:
             else
             {
                 _checkArray[_currentElement] = true;
-                return *(_iter);
+                return *((*this)._iter);
             }
         }
 
-        const iterator &operator->() const
+        const T &operator->() const
         {
-            return &(operator*());
+            return *((*this)._iter);
         }
 
         bool operator==(const iterator &rhs) const
@@ -92,17 +92,17 @@ public:
         {
             return (this->_currentElement != rhs._currentElement);
         }
-    }
+    };
 
     iterator begin()
     {
-        iterator it(*this, false);
+        iterator it(this->_vec, false);
         return it;
     }
 
     iterator end()
     {
-        iterator it(*this, true);
+        iterator it(this->_vec, true);
         return it;
     }
 };
