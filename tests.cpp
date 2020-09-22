@@ -22,12 +22,12 @@
 #ifdef VAL
 
 #define ITERATIONS 8 
-#define TOTAL_WORK 55
+#define TOTAL_WORK 56
 
 #else
 
 #define ITERATIONS 17
-#define TOTAL_WORK 91
+#define TOTAL_WORK 92
 
 #endif
 
@@ -51,7 +51,7 @@ void testIteratorsEmpty();
 void testIterators1();
 void testIterators2();
 void testIterators3();
-
+void testIterators4();
 
 ProgressBar myProgressBar(TOTAL_WORK);
 
@@ -80,6 +80,7 @@ int main()
     testIterators1();
     testIterators2();
     testIterators3();
+    testIterators4();
 
 
     auto finish = std::chrono::steady_clock::now();
@@ -844,18 +845,35 @@ void testIterators3()
         vecIter++;
     }
 
-    vecIter = values.begin();
 
-    for (auto it = map.cbegin(); it != map.cend(); it++)
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS = testIterators3");
+    myProgressBar++;
+    #endif
+}
+
+void testIterators4()
+{
+
+    std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+    std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+
+    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
+
+    std::vector<int>::const_iterator vecIter = values.begin();
+
+    for (auto it = map.begin(); it != map.end(); it++)
     {
         assert(it->first == *vecIter && it->second == *vecIter);
         assert(it->first == (*it).first && it->second == (*it).second);
 
         vecIter++;
     }
+    
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators3                            \n");
+    myProgressBar.addToOutputMsg("PASS = testIterators4                            \n");
     myProgressBar++;
     #endif
 }
