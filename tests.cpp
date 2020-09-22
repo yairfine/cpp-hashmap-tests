@@ -3,27 +3,42 @@
 //
 
 #include "HashMap.hpp"
+#include "ProgressBar.hpp"
 #include <iostream>
 #include <cassert>
-#include <vector>
 #include <cmath>
 #include <unordered_map>
+#include <vector>
+#include <chrono>
 
 #define KeyString std::string
 #define KeyInt int
 #define ValueInt int
 
-
 #define INITIAL_CAPACITY 16
 #define INITIAL_SIZE 0
 
-#define ITERATIONS 15
 #define I_UPPER_BOUND 1000
-#define RAND_RANGE 1000
+#define RAND_RANGE 5000
+
+
+#ifdef VAL
+
+#define ITERATIONS 8 
+#define TOTAL_WORK 54
+
+#else
+
+#define ITERATIONS 17
+#define TOTAL_WORK 90
+
+#endif
+
 
 void testDefaultConstruct();
 void testAt();
 void testConstruct1();
+void testConstruct1Capacity();
 void testInsert();
 void testErase();
 void testCapacityAndSizeResizeMap();
@@ -31,22 +46,27 @@ void testClear();
 void testOperatorSubscript();
 void testOperatorSubscriptConst();
 void testOperatorEqualsAndNotEquals();
+void testBucketSize();
+void testBucketIndex();
+void testContainsKey();
 void testIteratorsEmpty();
 void testIterators1();
 void testIterators2();
 void testIterators3();
-void testIterators4();
-void testIterators5();
 
-// newTest ??
+
+ProgressBar myProgressBar(TOTAL_WORK);
 
 int main()
 {
     std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
+    auto start = std::chrono::steady_clock::now();
+
 
     testDefaultConstruct();
     testAt();
     testConstruct1();
+    testConstruct1Capacity();
     testInsert();
     testErase();
     testCapacityAndSizeResizeMap();
@@ -54,13 +74,20 @@ int main()
     testOperatorSubscript();
     testOperatorSubscriptConst();
     testOperatorEqualsAndNotEquals();
+    testBucketSize();
+    testBucketIndex();
+    testContainsKey();
     testIteratorsEmpty();
     testIterators1();
     testIterators2();
     testIterators3();
-    testIterators4();
 
+    // testCtorInputIterators.
 
+    auto finish = std::chrono::steady_clock::now();
+    auto elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double> >(finish - start).count();
+    
+    std::cout << std::endl << std::endl << "Time elapsed: " << elapsed_seconds << " seconds" << std::endl;
     std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
 
     return 0;
@@ -70,12 +97,14 @@ void testDefaultConstruct()
 {
     HashMap<KeyString, ValueInt> map;
 
-    assert(map.getSize() == INITIAL_SIZE);
-    assert(map.getCapacity() == INITIAL_CAPACITY);
+    assert(map.size() == INITIAL_SIZE);
+    assert(map.capacity() == INITIAL_CAPACITY);
     assert(map.empty() == true);
 
-
-    std::cout << "PASS - testDefaultConstruct" << std::endl;
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testDefaultConstruct");
+    myProgressBar++;
+    #endif
 }
 
 void testAt()
@@ -91,10 +120,12 @@ void testAt()
     assert(map.at("d") == 4);
     assert(map.at("e") == 5);
 
+    // checking func 'at' is assinable:
     map.at("a") = 100;
     assert(map.at("a") == 100);
-    assert (map.getSize() == 5);
+    assert (map.size() == 5);
 
+    // checking non-existing key:
     try
     {
         map.at("f") = 6;
@@ -113,10 +144,12 @@ void testAt()
     {
     }
 
-    assert (map.getSize() == 5);
+    assert (map.size() == 5);
 
-
-    std::cout << "PASS - testAt" << std::endl;
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testAt");
+    myProgressBar++;
+    #endif
 }
 
 void testConstruct1()
@@ -126,7 +159,7 @@ void testConstruct1()
 
     HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
 
-    assert(map.getSize() == 9);
+    assert(map.size() == 9);
     assert(map.at("a") == 1);
     assert(map.at("b") == 2);
     assert(map.at("c") == 3);
@@ -137,13 +170,12 @@ void testConstruct1()
     assert(map.at("h") == 8);
     assert(map.at("i") == 9);
 
-
     std::vector<KeyString> keys2 = {"a", "b", "c", "d", "e", "f", "g", "a", "b", "h", "i"};
     std::vector<ValueInt> values2 = {1, 2, 3, 4, 5, 6, 7, 100, 200, 8, 9};
 
     HashMap<KeyString, ValueInt> map2(keys2.begin(), keys2.end(), values2.begin(), values2.end());
 
-    assert(map.getSize() == 9);
+    assert(map.size() == 9);
     assert(map2.at("a") == 100);
     assert(map2.at("b") == 200);
     assert(map2.at("c") == 3);
@@ -202,7 +234,27 @@ void testConstruct1()
     {
     }
 
-    std::cout << "PASS - testConstruct1" << std::endl;
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testConstruct1");
+    myProgressBar++;
+    #endif
+}
+
+void testConstruct1Capacity()
+{
+    std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+    std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+
+    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
+
+    assert(map.capacity() == 2 * INITIAL_CAPACITY);
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testConstruct1Capacity");
+    myProgressBar++;
+    #endif
 }
 
 void testInsert()
@@ -210,25 +262,27 @@ void testInsert()
     HashMap<KeyString, ValueInt> map;
     
     assert(map.empty() == true);  
-    assert(map.getCapacity() == INITIAL_CAPACITY);
+    assert(map.capacity() == INITIAL_CAPACITY);
 
     bool b = map.insert("a", 10);
     assert(b == true);
-    assert(map.getSize() == 1);
+    assert(map.size() == 1);
     assert(map.empty() == false);
 
     b = map.insert("a", 100);
     assert(b == false);
-    assert(map.getSize() == 1);
+    assert(map.size() == 1);
     assert(map.empty() == false);
 
     b = map.insert("a", 10);
     assert(b == false);
-    assert(map.getSize() == 1);
+    assert(map.size() == 1);
     assert(map.empty() == false);
 
-
-    std::cout << "PASS - testInsert" << std::endl;
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testInsert");
+    myProgressBar++;
+    #endif
 }
 
 void testErase()
@@ -241,17 +295,20 @@ void testErase()
 
     bool b = map.erase(0);
     assert(b == true);
-    assert(map.getSize() == 7);
+    assert(map.size() == 7);
 
     b = map.erase(4);
     assert(b == true);
-    assert(map.getSize() == 6);
+    assert(map.size() == 6);
 
     b = map.erase(10);
     assert(b == false);
-    assert(map.getSize() == 6);
+    assert(map.size() == 6);
 
-    std::cout << "PASS - testErase" << std::endl;
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testErase");
+    myProgressBar++;
+    #endif
 }
 
 void testCapacityAndSizeResizeMap()
@@ -266,11 +323,15 @@ void testCapacityAndSizeResizeMap()
         {
             map.insert(i, i);
 
-            assert(map.getSize() == i);
-            assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, n));
+            assert(map.size() == i);
+            assert(map.capacity() == INITIAL_CAPACITY * pow(2, n));
 
             i++;
+
         }
+        #ifndef VAL
+        myProgressBar++;
+        #endif
     }
 
     i--;
@@ -279,15 +340,22 @@ void testCapacityAndSizeResizeMap()
     {
         while (i >= INITIAL_CAPACITY * pow(2, n) * 0.25)
         {
-            assert(map.getSize() == i);
-            assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, n));
+            assert(map.size() == i);
+            assert(map.capacity() == INITIAL_CAPACITY * pow(2, n));
 
             map.erase(i);
             i--;
         }
+        #ifndef VAL
+        myProgressBar++;
+        #endif
     }
 
-    std::cout << "PASS - testCapacityAndSizeResize" << std::endl;
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testCapacityAndSizeResize");
+    myProgressBar++;
+    #endif
 }
 
 void testClear()
@@ -304,34 +372,43 @@ void testClear()
         {
             map.insert(i, i);
             i++;
+
         }
+        #ifndef VAL
+        myProgressBar ++;
+        #endif
     }
     i--;
 
     // checking 'clear' methods
 
-    assert(map.getSize() == i);
-    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
+    assert(map.size() == i);
+    assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
 
     map.clear();
 
-    assert(map.getSize() == INITIAL_SIZE);
-    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
+    assert(map.size() == INITIAL_SIZE);
+    assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
 
     map.insert(1, 1);
 
-    // todo make sure this is the appropriate behavior:
+    // checking capacity resizing rules
 
-    assert(map.getSize() == 1);
-    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
+    // after every insert, the capacity should maintain the rule: [ 0.25 * capacity <= size <= 0.75 * capacity ].
+    assert(map.size() == 1);
+    assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
 
     map.erase(1);
 
-    assert(map.getSize() == INITIAL_SIZE);
-    assert(map.getCapacity() == INITIAL_CAPACITY);
+    // after every erase, the capacity should maintain the rule: [ 0.25 * capacity <= size <= 0.75 * capacity ].
+    assert(map.size() == INITIAL_SIZE);
+    assert(map.capacity() == INITIAL_CAPACITY);
 
-
-    std::cout << "PASS - testClear" << std::endl;
+    
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testClear");
+    myProgressBar++;
+    #endif
 }
 
 void testOperatorSubscript()
@@ -341,7 +418,7 @@ void testOperatorSubscript()
 
     HashMap<KeyString, ValueInt> map(keys.cbegin(), keys.cend(), values.cbegin(), values.cend());
 
-    assert(map.getSize() == 3);
+    assert(map.size() == 3);
 
     try
     {
@@ -361,7 +438,7 @@ void testOperatorSubscript()
         c = 30;
         assert(map["c"] == 3);
 
-        assert(map.getSize() == 3);
+        assert(map.size() == 3);
 
         map["a"] = 111;
         assert(map["a"] == 111);
@@ -372,16 +449,16 @@ void testOperatorSubscript()
         map["c"] = 333;
         assert(map["c"] == 333);
 
-        assert(map.getSize() == 3);
+        assert(map.size() == 3);
 
         map["d"] = 444;
         assert(map["d"] == 444);
 
-        assert(map.getSize() == 4);
+        assert(map.size() == 4);
 
         map["e"];
 
-        assert(map.getSize() == 5);
+        assert(map.size() == 5);
     }
     catch (std::exception &e)
     {
@@ -389,7 +466,10 @@ void testOperatorSubscript()
     }
 
 
-    std::cout << "PASS - testOperatorSubscript" << std::endl;
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testOperatorSubscript");
+    myProgressBar++;
+    #endif
 }
 
 void testOperatorSubscriptConst()
@@ -400,7 +480,7 @@ void testOperatorSubscriptConst()
     const HashMap<KeyString, ValueInt> constMap(keys.cbegin(), keys.cend(),
                                                 values.cbegin(), values.cend());
 
-    assert(constMap.getSize() == 3);
+    assert(constMap.size() == 3);
 
     try
     {
@@ -415,9 +495,9 @@ void testOperatorSubscriptConst()
         int cc = constMap["c"];
         assert(cc == 3);
 
-        assert(constMap.getSize() == 3);
+        assert(constMap.size() == 3);
 
-        int dd = constMap["d"]; // should be an undefined behavior
+        constMap["d"]; // should be an undefined behavior
     }
     catch (std::exception &e)
     {
@@ -425,7 +505,10 @@ void testOperatorSubscriptConst()
     }
 
 
-    std::cout << "PASS - testOperatorSubscriptConst" << std::endl;
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testOperatorSubscriptConst");
+    myProgressBar++;
+    #endif
 }
 
 void testOperatorEqualsAndNotEquals()
@@ -473,7 +556,11 @@ void testOperatorEqualsAndNotEquals()
         {
             map.insert(i, i);
             i++;
+
         }
+        #ifndef VAL
+        myProgressBar++;
+        #endif
     }
 
     map.clear();
@@ -482,11 +569,110 @@ void testOperatorEqualsAndNotEquals()
     assert(!(map == emptyMap1));
 
 
-    std::cout << "PASS - testOperatorEqualsAndNotEquals" << std::endl;
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testOperatorEqualsAndNotEquals");
+    myProgressBar++;
+    #endif
+}
+
+void testBucketSize()
+{
+    std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+
+    try
+    {
+        for (auto it = keys.begin(); it != keys.end(); it++)
+        {
+            size_t bucketSize = map.bucket_size(*it);
+            assert(bucketSize >= 0);
+        }
+    }
+    catch(const std::exception& e)
+    {
+        assert(!" ~~~~ There should be NO EXCEPTION here! ~~~~ ");
+    }
+
+    try
+    {
+        map.bucket_size("x");
+        assert(!" ~~~ function '.bucket_size' should throw an exception for a non-existent key ~~~ ");
+
+    }
+    catch(const std::exception& e)
+    {
+    }
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testBucketSize");
+    myProgressBar++;
+    #endif
+}
+
+void testBucketIndex()
+{
+    std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+
+    try
+    {
+        for (auto it = keys.begin(); it != keys.end(); it++)
+        {
+            size_t bucketIndex = map.bucket_index(*it);
+            assert((bucketIndex >= 0) && (bucketIndex <= map.capacity() - 1));
+        }
+    }
+    catch(const std::exception& e)
+    {
+        assert(!" ~~~~ There should be NO EXCEPTION here! ~~~~ ");
+    }
+
+    try
+    {
+        map.bucket_index("x");
+        assert(!" ~~~ function '.bucket_index' should throw an exception for a non-existent key ~~~ ");
+
+    }
+    catch(const std::exception& e)
+    {
+    }
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testBucketIndex");
+    myProgressBar++;
+    #endif
+}
+
+void testContainsKey()
+{
+    std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+
+    for (auto it = keys.begin(); it != keys.end(); it++)
+    {
+        assert(map.contains_key(*it));
+    }
+
+    assert(!map.contains_key("x"));
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testContainsKey");
+    myProgressBar++;
+    #endif
 }
 
 void testIteratorsEmpty()
 {
+    // this unordered_map part is only for demonstrating..
     std::unordered_map<KeyString, ValueInt> emptyStdMap;
 
     auto beginStdMap = emptyStdMap.begin();
@@ -498,10 +684,10 @@ void testIteratorsEmpty()
 
     for (const auto &j : emptyStdMap)
     {
-        assert(!"In empty unordered_map there should not be iterations here");
+        assert(!" ~~~ In empty unordered_map there should not be any iterations here ~~~ ");
     }
 
-
+    // this is the real test here:
     HashMap<KeyString, ValueInt> emptyMap;
 
     auto iterBegin = emptyMap.begin();
@@ -513,16 +699,18 @@ void testIteratorsEmpty()
 
     for (const auto &i : emptyMap)
     {
-        assert(!" ~~~ In empty HashMap there should not be iterations here ~~~ ");
+        assert(!" ~~~ In empty HashMap there should not be any iterations here ~~~ ");
     }
 
 
-    std::cout << "PASS = testIteratorsEmprty" << std::endl;
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS = testIteratorsEmprty");
+    myProgressBar++;
+    #endif
 }
 
 void testIterators1()
 {
-
     std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 15};
     std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 15};
 
@@ -530,8 +718,6 @@ void testIterators1()
                                   values.cbegin(), values.cend());
 
     std::vector<int>::const_iterator vecIter = values.begin();
-
-    map.print();
 
     for (auto it = map.begin(); it != map.end(); it++)
     {
@@ -552,7 +738,10 @@ void testIterators1()
     }
 
 
-    std::cout << "PASS = testIterators1" << std::endl;
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS = testIterators1");
+    myProgressBar++;
+    #endif
 }
 
 void testIterators2()
@@ -585,7 +774,10 @@ void testIterators2()
     }
 
 
-    std::cout << "PASS = testIterators2" << std::endl;
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS = testIterators2");
+    myProgressBar++;
+    #endif
 }
 
 void testIterators3()
@@ -617,45 +809,10 @@ void testIterators3()
         vecIter++;
     }
 
-
-    std::cout << "PASS = testIterators3" << std::endl;
-}
-
-void testIterators4()
-{
-    HashMap<KeyInt, ValueInt> map;
-    std::vector<int> vec;
-
-    // Insert elements to the map
-
-    int i = 1;
-
-    for (int n = 0; n <= ITERATIONS; n++)
-    {
-        while (i <= INITIAL_CAPACITY * pow(2, n) * 0.75)
-        {
-            map.insert(i, i);
-            vec.push_back(i);
-            i++;
-        }
-    }
-    i--;
-
-    assert(map.getCapacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
-    assert(map.getSize() == i);
-    assert(vec.size() == i);
-    
-
-    auto vecIter = vec.begin();
-
-    for (auto it = map.begin(); it != map.end(); it++)
-    {
-        assert(it->first == *vecIter && it->second == *vecIter);   
-        assert(it->first == (*it).first && it->second == (*it).second);        
-        
-        vecIter++;
-    }
-
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS = testIterators3                            \n");
+    myProgressBar++;
+    #endif
 }
 
 void testIterators5()

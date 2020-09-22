@@ -2,6 +2,10 @@ HashMap.hpp
 main.cpp
 *.exe
 *.stackdump
+.zip
+.tar
+.rar
+compiledTests
 
 ----------------------------------------------------------------
 
