@@ -18,9 +18,7 @@
 
 #define INITIAL_CAPACITY 16
 #define INITIAL_SIZE 0
-
-#define I_UPPER_BOUND 1000
-#define RAND_RANGE 5000
+#define RAND_RANGE 1000000
 
 
 #ifdef VAL
@@ -61,6 +59,41 @@ void testIterators3();
 void testIterators4();
 void testIterators5();
 
+void test()
+{
+    // std::unordered_map<int, int> unOrMap;
+    // HashMap<int, int> hashMap;
+
+    std::vector<int> unOrMap, hashMap;
+
+    srand(time(NULL));
+
+    for (int i = 0; i < ITERATIONS; i++)
+    {
+        int randInt = rand() % RAND_RANGE + 1;
+
+        unOrMap.push_back(randInt);
+        hashMap.push_back(randInt);
+    }
+
+        // @ add a lambda compare function
+
+        auto maxUnOr = std::max_element(unOrMap.cbegin(), unOrMap.cend(),
+                                        [](int x, int y)->bool
+                                        {
+                                            return (x < y);
+                                        });
+        auto maxHash = std::max_element(hashMap.cbegin(), hashMap.cend(),
+                                        [](int x, int y)->bool
+                                        {
+                                            return (x < y);
+                                        }); 
+
+        assert(*maxUnOr == *maxHash);
+
+        std::cout << "Passed test()" << " " << *maxUnOr << " " << *maxHash << std::endl;
+}
+
 
 ProgressBar myProgressBar(TOTAL_WORK);
 
@@ -69,6 +102,7 @@ int main()
     std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
     auto start = std::chrono::steady_clock::now();
 
+    test();
 
     testDefaultConstruct();
     testAt();
@@ -924,12 +958,20 @@ void testIterators4()
     #endif
 }
 
+bool compFunc(std::pair<int, int> x, std::pair<int, int> y)
+{
+    return (x.first < y.first);
+}
+
+
 void testIterators5()
 {
     std::unordered_map<int, int> unOrMap;
     HashMap<int, int> hashMap;
 
-    for (int i = 0; i < I_UPPER_BOUND; i++)
+    srand(time(NULL));
+
+    for (int i = 0; i < ITERATIONS; i++)
     {
         int randInt = rand() % RAND_RANGE + 1;
 
@@ -937,22 +979,19 @@ void testIterators5()
         hashMap.insert(randInt, randInt);
     }
 
+
+
         // @ add a lambda compare function
 
-        auto maxUnOr = std::max_element(unOrMap.cbegin(), unOrMap.cend(),
-                                        [](std::pair<int, int> x, std::pair<int, int> y)->bool
-                                        {
-                                            return (x.first < y.first);
-                                        });
-        auto maxHash = std::max_element(hashMap.cbegin(), hashMap.cend(),
-                                        [](std::pair<int, int> x, std::pair<int, int> y)->bool
-                                        {
-                                            return (x.first < y.first);
-                                        }); 
+        auto maxUnOr = std::max_element(unOrMap.cbegin(), unOrMap.cend(),compFunc); 
+        auto maxHash = std::max_element(hashMap.cbegin(), hashMap.cend(),compFunc);
 
         assert(maxUnOr->first == maxHash->first);
 
 
 
-    std::cout << "PASS - testIterators5                            \n" << std::endl;
-} 
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS = testIterators5                              \n");
+    myProgressBar++;
+    #endif
+}
