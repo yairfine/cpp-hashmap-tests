@@ -22,12 +22,12 @@
 #ifdef VAL
 
 #define ITERATIONS 8 
-#define TOTAL_WORK 54
+#define TOTAL_WORK 55
 
 #else
 
 #define ITERATIONS 17
-#define TOTAL_WORK 90
+#define TOTAL_WORK 91
 
 #endif
 
@@ -43,6 +43,7 @@ void testClear();
 void testOperatorSubscript();
 void testOperatorSubscriptConst();
 void testOperatorEqualsAndNotEquals();
+void testOperatorEqualsUnOrderedInteranlLists();
 void testBucketSize();
 void testBucketIndex();
 void testContainsKey();
@@ -71,6 +72,7 @@ int main()
     testOperatorSubscript();
     testOperatorSubscriptConst();
     testOperatorEqualsAndNotEquals();
+    testOperatorEqualsUnOrderedInteranlLists();
     testBucketSize();
     testBucketIndex();
     testContainsKey();
@@ -79,7 +81,6 @@ int main()
     testIterators2();
     testIterators3();
 
-    // testCtorInputIterators.
 
     auto finish = std::chrono::steady_clock::now();
     auto elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double> >(finish - start).count();
@@ -568,6 +569,30 @@ void testOperatorEqualsAndNotEquals()
 
     #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testOperatorEqualsAndNotEquals");
+    myProgressBar++;
+    #endif
+}
+
+void testOperatorEqualsUnOrderedInteranlLists()
+{
+    std::vector<KeyInt> keys1 = {0, 1, 2, 3, 16, 17, 18, 19, 35};
+    std::vector<ValueInt> values1 = {0, 1, 2, 3,16, 17, 18, 19, 35};
+
+    std::vector<KeyInt> keys2 = {0, 17, 18, 35, 16, 1, 2, 3, 19};
+    std::vector<ValueInt> values2 = {0, 17, 18, 35, 16, 1, 2, 3, 19};
+
+    HashMap<KeyInt, ValueInt> map1(keys1.begin(), keys1.end(),
+                                   values1.begin(), values1.end());
+
+    HashMap<KeyInt, ValueInt> map2(keys2.begin(), keys2.end(),
+                                   values2.begin(), values2.end());
+
+
+    assert(map1 == map2);
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testOperatorEqualsUnOrderedInteranlLists");
     myProgressBar++;
     #endif
 }
