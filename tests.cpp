@@ -775,6 +775,9 @@ void testIterators2()
     HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
                                   values.cbegin(), values.cend());
 
+    const HashMap<KeyInt, ValueInt> constMap(keysInt.cbegin(), keysInt.cend(),
+                                             values.cbegin(), values.cend());
+
     std::vector<int>::const_iterator vecIter = values.begin();
 
     for (auto it = map.begin(); it != map.end(); it++)
@@ -788,6 +791,26 @@ void testIterators2()
     vecIter = values.begin();
 
     for (auto it = map.cbegin(); it != map.cend(); it++)
+    {
+        assert(it->first == *vecIter && it->second == *vecIter);
+        assert(it->first == (*it).first && it->second == (*it).second);
+
+        vecIter++;
+    }
+
+    vecIter = values.begin();
+
+    for (auto it = constMap.begin(); it != constMap.end(); it++)
+    {
+        assert(it->first == *vecIter && it->second == *vecIter);
+        assert(it->first == (*it).first && it->second == (*it).second);
+
+        vecIter++;
+    }
+
+    vecIter = values.begin();
+
+    for (auto it = constMap.cbegin(); it != constMap.cend(); it++)
     {
         assert(it->first == *vecIter && it->second == *vecIter);
         assert(it->first == (*it).first && it->second == (*it).second);
