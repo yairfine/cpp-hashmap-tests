@@ -55,6 +55,7 @@ void testIterators1();
 void testIterators2();
 void testIterators3();
 void testIterators4();
+void testIterators5();
 
 ProgressBar myProgressBar(TOTAL_WORK);
 
@@ -84,6 +85,7 @@ int main()
     testIterators2();
     testIterators3();
     testIterators4();
+    testIterators5();
 
 
     auto finish = std::chrono::steady_clock::now();
@@ -876,7 +878,40 @@ void testIterators4()
     
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators4                            \n");
+    myProgressBar.addToOutputMsg("PASS = testIterators4");
     myProgressBar++;
     #endif
 }
+
+void testIterators5()
+{
+    std::unordered_map<int, int> unOrMap;
+    HashMap<int, int> hashMap;
+
+    for (int i = 0; i < I_UPPER_BOUND; i++)
+    {
+        int randInt = rand() % RAND_RANGE + 1;
+
+        unOrMap.insert(randInt, randInt);
+        hashMap.insert(randInt, randInt);
+    }
+
+        // @ add a lambda compare function
+
+        auto maxUnOr = std::max_element(unOrMap.cbegin(), unOrMap.cend(),
+                                        [](std::pair<int, int> x, std::pair<int, int> y)->bool
+                                        {
+                                            return (x.first < y.first);
+                                        });
+        auto maxHash = std::max_element(hashMap.cbegin(), hashMap.cend(),
+                                        [](std::pair<int, int> x, std::pair<int, int> y)->bool
+                                        {
+                                            return (x.first < y.first);
+                                        }); 
+
+        assert(maxUnOr->first == maxHash->first);
+
+
+
+    std::cout << "PASS - testIterators5                            \n" << std::endl;
+} 
