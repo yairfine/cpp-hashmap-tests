@@ -815,27 +815,27 @@ void testIterators3()
     #endif
 }
 
-void testIterators5()
-{
-    std::unordered_map<int, int> unOrMap;
-    HashMap<int, int> hashMap;
+// void testIterators5()
+// {
+//     std::unordered_map<int, int> unOrMap;
+//     HashMap<int, int> hashMap;
     
-    for (int i = 0; i < I_UPPER_BOUND; i++)
-    {
-        int randInt = rand() % RAND_RANGE + 1;
+//     for (int i = 0; i < I_UPPER_BOUND; i++)
+//     {
+//         int randInt = rand() % RAND_RANGE + 1;
         
-        unOrMap.insert(randInt, randInt);
-        hashMap.insert(randInt, randInt);
-    }
+//         unOrMap.insert(randInt, randInt);
+//         hashMap.insert(randInt, randInt);
+//     }
     
-        // @ add a lambda compare function
+//         // @ add a lambda compare function
         
-        auto maxUnOr = std::max_element(unOrMap.cbegin(), unOrMap.cend());
-        auto maxHash = std::max_element(HashMap.cbegin(), hashMap.cend());
+//         auto maxUnOr = std::max_element(unOrMap.cbegin(), unOrMap.cend());
+//         auto maxHash = std::max_element(HashMap.cbegin(), hashMap.cend());
 
-        assert(maxUnOr->first == maxHash->first);
+//         assert(maxUnOr->first == maxHash->first);
     
 
     
-    std::cout << "PASS - testIterators5" << std::endl;
-}
+//     std::cout << "PASS - testIterators5" << std::endl;
+// }
