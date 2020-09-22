@@ -67,16 +67,16 @@ void test()
     // }
 
     // std::cout << (*input_iterator_begin) << std::endl;
-    std::cout << (*input_iterator_begin) << std::endl;
-    input_iterator_begin++;
-    std::cout << (*input_iterator_begin) << std::endl;
-    input_iterator_begin++;
-    std::cout << (*input_iterator_begin) << std::endl;
+    // std::cout << (*input_iterator_begin) << std::endl;
+    // input_iterator_begin++;
+    // std::cout << (*input_iterator_begin) << std::endl;
+    // input_iterator_begin++;
+    // std::cout << (*input_iterator_begin) << std::endl;
 
 
     for (auto it = II.begin(); it != II.end(); it++)
     {
-        std::cout << (*it) << std::endl;
+        // std::cout << (*it) << std::endl;
     }
 
 }
