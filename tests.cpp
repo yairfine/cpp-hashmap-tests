@@ -23,12 +23,12 @@
 #ifdef VAL
 
 #define ITERATIONS 8 
-#define TOTAL_WORK 54
+#define TOTAL_WORK 56
 
 #else
 
 #define ITERATIONS 17
-#define TOTAL_WORK 90
+#define TOTAL_WORK 92
 
 #endif
 
@@ -44,6 +44,7 @@ void testClear();
 void testOperatorSubscript();
 void testOperatorSubscriptConst();
 void testOperatorEqualsAndNotEquals();
+void testOperatorEqualsUnOrderedInteranlLists();
 void testBucketSize();
 void testBucketIndex();
 void testContainsKey();
@@ -51,6 +52,8 @@ void testIteratorsEmpty();
 void testIterators1();
 void testIterators2();
 void testIterators3();
+void testIterators4();
+
 
 void test()
 {
@@ -102,6 +105,7 @@ int main()
     testOperatorSubscript();
     testOperatorSubscriptConst();
     testOperatorEqualsAndNotEquals();
+    testOperatorEqualsUnOrderedInteranlLists();
     testBucketSize();
     testBucketIndex();
     testContainsKey();
@@ -109,9 +113,13 @@ int main()
     testIterators1();
     testIterators2();
     testIterators3();
+    testIterators4();
 
+<<<<<<< HEAD
 
     // testCtorInputIterators.
+=======
+>>>>>>> a180425ab5f437463a15bcecd3ab7b7ae29b8ce8
 
     auto finish = std::chrono::steady_clock::now();
     auto elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double> >(finish - start).count();
@@ -604,6 +612,30 @@ void testOperatorEqualsAndNotEquals()
     #endif
 }
 
+void testOperatorEqualsUnOrderedInteranlLists()
+{
+    std::vector<KeyInt> keys1 = {0, 1, 2, 3, 16, 17, 18, 19, 35};
+    std::vector<ValueInt> values1 = {0, 1, 2, 3,16, 17, 18, 19, 35};
+
+    std::vector<KeyInt> keys2 = {0, 17, 18, 35, 16, 1, 2, 3, 19};
+    std::vector<ValueInt> values2 = {0, 17, 18, 35, 16, 1, 2, 3, 19};
+
+    HashMap<KeyInt, ValueInt> map1(keys1.begin(), keys1.end(),
+                                   values1.begin(), values1.end());
+
+    HashMap<KeyInt, ValueInt> map2(keys2.begin(), keys2.end(),
+                                   values2.begin(), values2.end());
+
+
+    assert(map1 == map2);
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testOperatorEqualsUnOrderedInteranlLists");
+    myProgressBar++;
+    #endif
+}
+
 void testBucketSize()
 {
     std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
@@ -782,6 +814,9 @@ void testIterators2()
     HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
                                   values.cbegin(), values.cend());
 
+    const HashMap<KeyInt, ValueInt> constMap(keysInt.cbegin(), keysInt.cend(),
+                                             values.cbegin(), values.cend());
+
     std::vector<int>::const_iterator vecIter = values.begin();
 
     for (auto it = map.begin(); it != map.end(); it++)
@@ -795,6 +830,26 @@ void testIterators2()
     vecIter = values.begin();
 
     for (auto it = map.cbegin(); it != map.cend(); it++)
+    {
+        assert(it->first == *vecIter && it->second == *vecIter);
+        assert(it->first == (*it).first && it->second == (*it).second);
+
+        vecIter++;
+    }
+
+    vecIter = values.begin();
+
+    for (auto it = constMap.begin(); it != constMap.end(); it++)
+    {
+        assert(it->first == *vecIter && it->second == *vecIter);
+        assert(it->first == (*it).first && it->second == (*it).second);
+
+        vecIter++;
+    }
+
+    vecIter = values.begin();
+
+    for (auto it = constMap.cbegin(); it != constMap.cend(); it++)
     {
         assert(it->first == *vecIter && it->second == *vecIter);
         assert(it->first == (*it).first && it->second == (*it).second);
@@ -828,18 +883,35 @@ void testIterators3()
         vecIter++;
     }
 
-    vecIter = values.begin();
 
-    for (auto it = map.cbegin(); it != map.cend(); it++)
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS = testIterators3");
+    myProgressBar++;
+    #endif
+}
+
+void testIterators4()
+{
+
+    std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+    std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+
+    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
+
+    std::vector<int>::const_iterator vecIter = values.begin();
+
+    for (auto it = map.begin(); it != map.end(); it++)
     {
         assert(it->first == *vecIter && it->second == *vecIter);
         assert(it->first == (*it).first && it->second == (*it).second);
 
         vecIter++;
     }
+    
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators3                            \n");
+    myProgressBar.addToOutputMsg("PASS = testIterators4                            \n");
     myProgressBar++;
     #endif
 }
