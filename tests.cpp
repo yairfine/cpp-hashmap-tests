@@ -89,8 +89,6 @@ int main()
     testIterators4();
 
 
-    // testCtorInputIterators.
-
     auto finish = std::chrono::steady_clock::now();
     auto elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double> >(finish - start).count();
     
