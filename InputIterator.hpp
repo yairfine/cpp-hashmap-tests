@@ -22,10 +22,11 @@ public:
         int _currentElement;
 
         int _size;
-        bool *_checkArray;
+        bool _alreadyDereferenced;
     
     public:
-        iterator(const std::vector<T> &vector, bool isEnd) : _vector(vector), _size(_vector.size())
+        iterator(const std::vector<T> &vector, bool isEnd) : _vector(vector), _size(_vector.size()),
+                                                             _alreadyDereferenced(false)
         {
             if (isEnd)
             {
@@ -37,24 +38,13 @@ public:
                 _currentElement = 0;
                 _iter = _vector.end(); 
             }
-
-            _checkArray = new bool[_size - 1];
-
-            for (int i = 0; i < _size; i++)
-            {
-                _checkArray[i] = false;
-            }
-        }
-
-        ~iterator()
-        {
-            delete[] _checkArray;
         }
 
         iterator &operator++()
         {
             _currentElement++;
             _iter++;
+            _alreadyDereferenced = false;
             return *this;
         }
 
@@ -62,25 +52,34 @@ public:
         {
             _currentElement++;
             _iter++;
+            _alreadyDereferenced = false;
             return *this;
         }
 
         T operator*() const
         {
-            if (_checkArray[_currentElement] == true)
+            if (_alreadyDereferenced == true)
             {
                 throw std::runtime_error(DOUBLE_DEREFERENCED);
             }
             else
             {
-                _checkArray[_currentElement] = true;
+                _alreadyDereferenced = true;
                 return *((*this)._iter);
             }
         }
 
-        const T &operator->() const
+        const T *operator->() const
         {
-            return *((*this)._iter);
+            if (_alreadyDereferenced == true)
+            {
+                throw std::runtime_error(DOUBLE_DEREFERENCED);
+            }
+            else
+            {
+                _alreadyDereferenced = true;
+                return &(*((*this)._iter));
+            }
         }
 
         bool operator==(const iterator &rhs) const
