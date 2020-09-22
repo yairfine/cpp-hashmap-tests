@@ -22,21 +22,24 @@
 
 #ifdef VAL
 
-#define ITERATIONS 8 
-#define TOTAL_WORK 56
+#define ITERATIONS 8
+#define I_UPPER_BOUND 100
+#define TOTAL_WORK 57
 
 #else
 
 #define ITERATIONS 17
-#define TOTAL_WORK 92
+#define I_UPPER_BOUND 1000
+#define TOTAL_WORK 93
 
 #endif
 
 
 void testDefaultConstruct();
 void testAt();
-void testConstruct1();
-void testConstruct1Capacity();
+void testConstructor1();
+void testConstructor1Capacity();
+void testConstructor1Dereferencing();
 void testInsert();
 void testErase();
 void testCapacityAndSizeResizeMap();
@@ -55,36 +58,6 @@ void testIterators3();
 void testIterators4();
 
 
-void test()
-{
-    std::vector<int> vector = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-
-    InputIterator<int> II(vector);
-
-    auto input_iterator_begin = II.begin();
-    auto input_iterator_end = II.end();
-
-    for (auto it = vector.begin(); it != vector.end(); it++)
-    {
-        std::cout << (*it) << std::endl;
-    }
-
-    // std::cout << (*input_iterator_begin) << std::endl;
-    // std::cout << (*input_iterator_begin) << std::endl;
-    // input_iterator_begin++;
-    // std::cout << (*input_iterator_begin) << std::endl;
-    // input_iterator_begin++;
-    // std::cout << (*input_iterator_begin) << std::endl;
-
-
-    for (auto it = II.begin(); it != II.end(); it++)
-    {
-        std::cout << (*it) << std::endl;
-    }
-
-}
-
-
 ProgressBar myProgressBar(TOTAL_WORK);
 
 int main()
@@ -92,12 +65,12 @@ int main()
     std::cout << "~~~~~~ Starting tests ~~~~~~" << std::endl << std::endl;
     auto start = std::chrono::steady_clock::now();
 
-    test();
 
     testDefaultConstruct();
     testAt();
-    testConstruct1();
-    testConstruct1Capacity();
+    testConstructor1();
+    testConstructor1Capacity();
+    testConstructor1Dereferencing();
     testInsert();
     testErase();
     testCapacityAndSizeResizeMap();
@@ -186,7 +159,7 @@ void testAt()
     #endif
 }
 
-void testConstruct1()
+void testConstructor1()
 {
     std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
     std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -269,12 +242,12 @@ void testConstruct1()
     }
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS - testConstruct1");
+    myProgressBar.addToOutputMsg("PASS - testConstructor1");
     myProgressBar++;
     #endif
 }
 
-void testConstruct1Capacity()
+void testConstructor1Capacity()
 {
     std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
     std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
@@ -286,7 +259,42 @@ void testConstruct1Capacity()
 
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS - testConstruct1Capacity");
+    myProgressBar.addToOutputMsg("PASS - testConstructor1Capacity");
+    myProgressBar++;
+    #endif
+}
+
+void testConstructor1Dereferencing()
+{
+    std::vector<int> vector;
+
+    for (int i = 0; i < I_UPPER_BOUND; i++)
+    {
+        vector.push_back(i);
+    }
+
+    InputIterator<int> inputIter(vector);
+
+    auto keys_input_iterator_begin = inputIter.begin();
+    auto keys_input_iterator_end = inputIter.end();
+
+    auto values_input_iterator_begin = inputIter.begin();
+    auto values_input_iterator_end = inputIter.end();
+
+    try
+    {
+        HashMap<int, int> map(inputIter.begin(), inputIter.end(),
+                              inputIter.begin(), inputIter.end());
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        assert(!"Your Ctor1 is de-referencing the input-iterator twice");
+    }
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testConstructor1Dereferencing");
     myProgressBar++;
     #endif
 }
