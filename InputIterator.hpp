@@ -45,15 +45,18 @@ public:
             _currentElement++;
             _iter++;
             _alreadyDereferenced = false;
+            
             return *this;
         }
 
         iterator operator++(int)
         {
             iterator temp = *this;
+
             _currentElement++;
             _iter++;
             _alreadyDereferenced = false;
+
             return temp;
         }
 
