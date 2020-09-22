@@ -61,10 +61,10 @@ void test()
     auto input_iterator_begin = II.begin();
     auto input_iterator_end = II.end();
 
-    // for (auto it = vector.begin(); it != vector.end(); it++)
-    // {
-    //     std::cout << (*it) << std::endl;
-    // }
+    for (auto it = vector.begin(); it != vector.end(); it++)
+    {
+        std::cout << (*it) << std::endl;
+    }
 
     // std::cout << (*input_iterator_begin) << std::endl;
     // std::cout << (*input_iterator_begin) << std::endl;
@@ -76,7 +76,7 @@ void test()
 
     for (auto it = II.begin(); it != II.end(); it++)
     {
-        // std::cout << (*it) << std::endl;
+        std::cout << (*it) << std::endl;
     }
 
 }

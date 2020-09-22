@@ -22,7 +22,7 @@ public:
         int _currentElement;
 
         int _size;
-        bool _alreadyDereferenced;
+        mutable bool _alreadyDereferenced;
     
     public:
         iterator(const std::vector<T> &vector, bool isEnd) : _vector(vector), _size(_vector.size()),
@@ -50,10 +50,11 @@ public:
 
         iterator operator++(int)
         {
+            iterator temp = *this;
             _currentElement++;
             _iter++;
             _alreadyDereferenced = false;
-            return *this;
+            return temp;
         }
 
         T operator*() const
@@ -65,7 +66,7 @@ public:
             else
             {
                 _alreadyDereferenced = true;
-                return *((*this)._iter);
+                return *(this->_iter);
             }
         }
 
@@ -78,7 +79,7 @@ public:
             else
             {
                 _alreadyDereferenced = true;
-                return &(*((*this)._iter));
+                return &(*(this->_iter));
             }
         }
 
