@@ -31,12 +31,12 @@ public:
             if (isEnd)
             {
                 _currentElement = _size;
-                _iter = _vector.begin();
+                _iter = _vector.end();
             }
             else
             {
                 _currentElement = 0;
-                _iter = _vector.end(); 
+                _iter = _vector.begin(); 
             }
         }
 
