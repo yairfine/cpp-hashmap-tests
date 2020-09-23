@@ -333,6 +333,10 @@ void testOperatorAssignment()
     assert(map1.at("m") == 13);
 
 
+    // for Valgrind check:
+    map1 = map1;
+
+
     #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testOperatorAssignment");
     myProgressBar++;
