@@ -1,6 +1,6 @@
 # Tests for ex6 - HashMap - c++ course
 ## Usage
-On your project directory, clone the tests using:
+Inside your project directory, clone the tests using:
 ```$xslt
 $ git clone https://github.com/yairfine/cpp-hashmap-tests.git
 ```
