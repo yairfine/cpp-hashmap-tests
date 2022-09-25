@@ -22,7 +22,7 @@
 
 #define ITERATIONS 8
 #define I_UPPER_BOUND 100
-#define TOTAL_WORK 63
+#define TOTAL_WORK 64
 
 #else
 
@@ -60,7 +60,7 @@ void testIterators2();
 void testIterators3();
 void testIterators4();
 void testIterators5();
-void testCopyAssignment();
+void testIterators6();
 
 
 ProgressBar myProgressBar(TOTAL_WORK);
@@ -98,7 +98,7 @@ int main()
     testIterators3();
     testIterators4();
     testIterators5();
-    testCopyAssignment();
+    testIterators6(); // compilation test - added iterator-traits
 
 
     auto finish = std::chrono::steady_clock::now();
@@ -1163,28 +1163,22 @@ void testIterators5()
     #endif
 }
 
-void testCopyAssignment()
+void testIterators6()
 {
-    std::vector<int> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
-    std::vector<int> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    // this test is a COMPILATION TEST
+    // check whether you added iterator-traits (the 5 typedefs)
 
-    HashMap<int, int> map1(keysInt.cbegin(), keysInt.cend(),
-                           values.cbegin(), values.cend());
+    std::vector<int> keysInt = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 
-    HashMap<int, int> map2;
+    HashMap<int, int> map(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
 
-    map2 = map1;
-
-    assert(map2.size() == map1.size());
-    assert(map2.capacity() == map1.capacity());
-
-    for (const auto& v: values)
-    {
-        assert(map2[v] == v);
-    }
+    int d = std::distance(map.begin(), map.end());
+    assert(d == 12);
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS - testDefaultConstructor                            \n");
+    myProgressBar.addToOutputMsg("PASS = testIterators6                             \n");
     myProgressBar++;
     #endif
 
